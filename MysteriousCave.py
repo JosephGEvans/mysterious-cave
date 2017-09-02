@@ -1,4 +1,6 @@
 from sys import exit
+import os
+from mc_cave_entrance import *
 
 
 def mci():
@@ -6,6 +8,7 @@ def mci():
     "Updates a global variable called 'mcinput' with input from the user."
     global mcinput
     mcinput = input("> ")
+    os.system('cls')
 
 def mcp(*certainWords):
     "Mystery Cave Parser"
@@ -29,10 +32,12 @@ def mcdu():
 
 
 def start():
+    os.system('cls')
     # get user's name
     print("Hello, there!  What is your name?")
     global player
     player = input("> ")
+    os.system('cls')
     print(f"""
     Well, hello there, {player}.
     Tell me, {player}, how does this story sound:
@@ -64,14 +69,6 @@ def start():
         else:
             mcdu()
             print("Try typing 'yes' or 'no'")
-
-
-
-
-def cave_entrance():
-    # describe the environment
-    # offer choices left, right, forwared, back out of the cave
-    pass
 
 
 def hobo_bedroom():
@@ -179,6 +176,7 @@ def finished_path():
 
 
 def end():
+    os.system('cls')
     exit(0)
 
 
