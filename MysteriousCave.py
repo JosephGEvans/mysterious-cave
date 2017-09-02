@@ -1,6 +1,5 @@
 from sys import exit
 import os
-from mc_cave_entrance import *
 
 
 def mci():
@@ -13,11 +12,11 @@ def mci():
 def mcp(*certainWords):
     "Mystery Cave Parser"
     "Compares strings with input string and returns True or False"
-    "Accepts strings, variables, and boolean operators like NOT"
+    "[will accept] strings, variables, and boolean operators like NOT"
     thereOrNotThere = True
     for word in certainWords:
 
-        if word in mcinput:
+        if word.lower() in mcinput.lower():
             thereOrNotThere = thereOrNotThere and True
         else:
             thereOrNotThere = thereOrNotThere and False
@@ -32,7 +31,6 @@ def mcdu():
 
 
 def start():
-    os.system('cls')
     # get user's name
     print("Hello, there!  What is your name?")
     global player
@@ -69,6 +67,32 @@ def start():
         else:
             mcdu()
             print("Try typing 'yes' or 'no'")
+
+
+def cave_entrance():
+    # describe the environment
+    print(f"""
+    It looks like you've found yourslef in the entrance to a cave!
+    The light from outside shows paths leading EAST, WEST, and NORTH.
+    Which way would you like to go?
+    """)
+    mci()
+    # offer choices left, right, forwared, back out of the cave
+    if mcp("east"):
+        hobo_bedroom()
+    elif mcp("west"):
+        perfect_cube_room()
+    elif mcp("north"):
+        long_walk()
+    elif mcp("south") or mcp("back") or mcp("out") or mcp("exit") or mcp("leave"):
+        print("""
+        You decide it would be best to leave this cave.  It's probably dangerous.
+        See ya!
+        """)
+        end()
+    else:
+        mcdu()
+        cave_entrance()
 
 
 def hobo_bedroom():
@@ -176,8 +200,8 @@ def finished_path():
 
 
 def end():
-    os.system('cls')
     exit(0)
 
 
+os.system('cls')
 start()
