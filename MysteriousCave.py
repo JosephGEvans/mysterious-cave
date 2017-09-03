@@ -58,32 +58,33 @@ def start():
             break
         elif mcp("no", "thank"):
             print("So polite!  Ok, here we go.")
-            cave_entrance()
+            cave_entrance(caveEntrance)
             break
         elif mcp("no"):
             print("Great!  Let's get started.")
-            cave_entrance()
+            cave_entrance(caveEntrance)
             break
         else:
             mcdu()
             print("Try typing 'yes' or 'no'")
 
 
-def cave_entrance():
-    # describe the environment
+def cave_entrance(previous):
+    last_room = previous
+    this_room = caveEntrance
     print(f"""
-    It looks like you've found yourslef in the entrance to a cave!
+    Well, {player}, it looks like you've found yourself in the entrance to a cave!
     The light from outside shows paths leading EAST, WEST, and NORTH.
     Which way would you like to go?
     """)
     mci()
     # offer choices left, right, forwared, back out of the cave
     if mcp("east"):
-        hobo_bedroom()
+        hobo_bedroom(caveEntrance)
     elif mcp("west"):
-        perfect_cube_room()
+        perfect_cube_room(caveEntrance)
     elif mcp("north"):
-        long_walk()
+        long_walk(caveEntrance)
     elif mcp("south") or mcp("back") or mcp("out") or mcp("exit") or mcp("leave"):
         print("""
         You decide it would be best to leave this cave.  It's probably dangerous.
@@ -92,10 +93,37 @@ def cave_entrance():
         end()
     else:
         mcdu()
-        cave_entrance()
+        cave_entrance(previous)
 
 
-def hobo_bedroom():
+def hobo_bedroom(previous):
+    this_room = hoboBedroom
+    last_room = previous
+    #TEST>>
+    print(f"this_room:  {this_room}")
+    print(f"previous:  {previous}")
+    print(f"last_room:  {last_room}")
+    print(f"""
+    You look around with your handy flashlight, and see some trash. Someone
+    might live here.  One cave wall looks like it was arranged by human hands.
+    You can EXAMINE the wall, or exit back to the WEST.
+    """)
+
+    while True:
+        mci()
+
+        if mcp("examine") and not mcp("wall"):
+            print("Maybe you should consider examining SOMETHING. Like, the wall, for example.")
+        elif mcp("examine", "wall"):
+            print("Looks like someone carefully arranged these rocks to...")
+            # This will get complicated.
+        elif mcp("trash"):
+            print("Ew.")
+        elif mcp("west"):
+            cave_entrance()
+
+
+def hobo_cache():
     pass
 
 
@@ -202,6 +230,9 @@ def finished_path():
 def end():
     exit(0)
 
+
+this_room = ""
+last_room = ""
 
 os.system('cls')
 start()
