@@ -1,6 +1,5 @@
 from sys import exit
 import os
-import random
 
 
 def mci():
@@ -186,12 +185,42 @@ def hobo_cache(previous):
     last_room = previous
     this_room = "hobo_cache"
 
-    print("Stuff in the hobo cache.")
+    print(
+    """\rWow, neat!  It's some kind of secret pile of secret stuff.  Let's see,
+    \rwe have a can of "Beans", some broken glasses, a rusty harmonica, and some
+    \rused, uh... used stuff.  Actually, you know what?  This is not that neat.
+    """
+    )
     while True:
         mci()
 
-
-    pass
+        if mcp("look", "stuff"):
+            print("Beans, harmonica, glasses, and gross used somethings.")
+        elif mcp("get", "stuff"):
+            print(f"Trust me, {player}.  You don't want any of this stuff.")
+        elif mcp("beans"):
+            print("""It's a can of "beans".  You don't want it.  Don't get it.
+            """)
+        elif mcp("bean):
+            print("""What, like a single bean?  It's in the can, which you CAN't
+            \ropen.  Get it?  A can?  CAN't?  Anyway, no, you may not.""")
+        elif mcp("glasses"):
+            print("These glasses are broken.  They might cut you.")
+        elif mcp("look","used"):
+            print(
+            """\rYou decide to take a closer look at the... never mind.  You
+            changed your mind.  It is terrible and aweful and gross.""")
+        elif mcp("get",  "used"):
+            print(
+            f"""\rWow, {player}, that is messed up.  You should probably lose
+            \rthis game right now.  Consider this a warning.""")
+        elif mcp("what"):
+            print("Here's what you should do.  Back away from this hobo stash.")
+        elif mcp("west"):
+            cave_entrance()
+            break
+        else:
+            mcdu()
 
 
 def perfect_cube_room(previous):
