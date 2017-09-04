@@ -1,5 +1,6 @@
 from sys import exit
 import os
+import random
 
 
 def mci():
@@ -63,6 +64,17 @@ def mcdu():
         print(f"""
         \rI don't know what you mean by "{mcinput}".  Type HELP if you need it.
         """)
+
+
+def flashlight_is_off():
+    flashlight_warnings = [
+    f"You can't see anything, {player}.  Your flashlight is off."
+    "Yeah, you can't see anything.  It's dark."
+    "Its really hard to LOOK when its so dark."
+    "It's dark.  Be nice if you had some kind of illumination device."
+    f"{player}, really.  You need to turn on your flashlight to see in here."
+    ]
+    print(random.SystemRandom().choice(flashlight_warnings))
 
 
 def start():
