@@ -144,8 +144,13 @@ def hobo_bedroom(previous):
             print("""Maybe you should consider examining SOMETHING.
             \rFor example, one might EXAMINE a WALL.""")
         elif mcp("examine", "wall"):
-            print("""Looks like someone carefully arranged these rocks to hide
-            \rsomething. You could MOVE the rocks to take a look.""")
+            if hobo_bedroom_rocks_moved:
+                hobo_cache("hobo_bedroom")
+                break
+            else:
+                print("""
+                \rLooks like someone carefully arranged these rocks to hide
+                \rsomething. You could MOVE the rocks to take a look.""")
         elif mcp("trash"):
             print("Eww.")
         elif mcp("west"):
