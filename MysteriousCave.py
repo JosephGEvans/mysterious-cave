@@ -29,9 +29,24 @@ def mcdu():
     "Mystery Cave Don't Understand"
     "Catch all for when your words don't apply to the specific situation."
 
+
+    elif mcinput.lower() == "get":
+        print("Get?  Get what?  You got nothing.")
+    elif mcinput.lower().startswith("get "):
+        print(f"""
+        \rYou consider getting {mcinput[4:]} in case you might need it later.
+        \rJust between us, {player}, you're not gonna.  You should leave
+        \r{mcinput[4:]} behind.""")
     if "back" in mcinput.lower():
         exec(last_room + "(this_room)")
         return
+    elif mcp("left") or mcp("right") or mcp("straight") or mcp("forward"):
+        print(f"""
+        \rListen, {player}, I'm just a dumb computer.  I don't know words like
+        \r"straight" or "left" or "right".  I understand NORTH, SOUTH, EAST,
+        \rand WEST.  If I could actually understand WORDS, I would probably
+        \rtake your job, assume your identity, and taunt you perpetually.
+        """)
     elif "help" in mcinput.lower():
         print("""Here are some things you can try:
         LOOK at something
@@ -42,22 +57,10 @@ def mcdu():
         You can always try to go EAST, WEST, NORTH, or SOUTH.""")
         exec(this_room + "(last_room)")
         return
-    elif mcinput.lower() == "get":
-        print("Get?  Get what?  You got nothing.")
-    elif mcinput.lower().startswith("get "):
-        print(f"""
-        \rYou consider getting {mcinput[4:]} in case you might need it later.
-        \rJust between us, {player}, you're not gonna.  You should leave
-        \r{mcinput[4:]} behind.""")
-    elif mcp("left") or mcp("right") or mcp("straight") or mcp("forward"):
-        print(f"""
-        \rListen, {player}, I'm just a dumb computer.  I don't know words like
-        \r"straight" or "left" or "right".  I understand NORTH, SOUTH, EAST,
-        \rand WEST.  If I could actually understand WORDS, I would probably
-        \rtake your job, assume your identity, and taunt you perpetually.
-        """)
     else:
-        print(f"""I don't know what you mean by "{mcinput}".""")
+        print(f"""
+        \rI don't know what you mean by "{mcinput}".  Type HELP if you need it.
+        """)
 
 
 def start():
