@@ -13,6 +13,12 @@ def mcp(*certainWords):
     "Mystery Cave Parser"
     "Compares strings with input string and returns True or False"
     "[will accept] strings, variables, and boolean operators like NOT"
+
+
+    if "back" in mcinput.lower():
+        exec(last_room + "(this_room)")
+        return
+
     thereOrNotThere = True
     for word in certainWords:
 
@@ -58,11 +64,11 @@ def start():
             break
         elif mcp("no", "thank"):
             print("So polite!  Ok, here we go.")
-            cave_entrance(caveEntrance)
+            cave_entrance("cave_entrance")
             break
         elif mcp("no"):
             print("Great!  Let's get started.")
-            cave_entrance(caveEntrance)
+            cave_entrance("cave_entrance")
             break
         else:
             mcdu()
@@ -70,8 +76,9 @@ def start():
 
 
 def cave_entrance(previous):
+    global last_room, this_room, player
     last_room = previous
-    this_room = caveEntrance
+    this_room = "cave_entrance"
     print(f"""
     Well, {player}, it looks like you've found yourself in the entrance to a cave!
     The light from outside shows paths leading EAST, WEST, and NORTH.
@@ -80,12 +87,12 @@ def cave_entrance(previous):
     mci()
     # offer choices left, right, forwared, back out of the cave
     if mcp("east"):
-        hobo_bedroom(caveEntrance)
+        hobo_bedroom(this_room)
     elif mcp("west"):
-        perfect_cube_room(caveEntrance)
+        perfect_cube_room(this_room)
     elif mcp("north"):
-        long_walk(caveEntrance)
-    elif mcp("south") or mcp("back") or mcp("out") or mcp("exit") or mcp("leave"):
+        long_walk(this_room)
+    elif mcp("south") or mcp("out") or mcp("exit") or mcp("leave"):
         print("""
         You decide it would be best to leave this cave.  It's probably dangerous.
         See ya!
@@ -97,7 +104,7 @@ def cave_entrance(previous):
 
 
 def hobo_bedroom(previous):
-    this_room = hoboBedroom
+    this_room = "hobo_bedroom"
     last_room = previous
     #TEST>>
     print(f"this_room:  {this_room}")
