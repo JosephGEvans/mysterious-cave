@@ -14,11 +14,6 @@ def mcp(*certainWords):
     "Compares strings with input string and returns True or False"
     "[will accept] strings, variables, and boolean operators like NOT"
 
-
-    if "back" in mcinput.lower():
-        exec(last_room + "(this_room)")
-        return
-
     thereOrNotThere = True
     for word in certainWords:
 
@@ -32,8 +27,37 @@ def mcp(*certainWords):
 
 def mcdu():
     "Mystery Cave Don't Understand"
-    "Generic way of saying you typed the wrong stuff."
-    print(f"I don't know what you mean by {mcinput}")
+    "Catch all for when your words don't apply to the specific situation."
+
+    if "back" in mcinput.lower():
+        exec(last_room + "(this_room)")
+        return
+    elif "help" in mcinput.lower():
+        print("""Here are some things you can try:
+        LOOK at something
+        GET something
+        USE something
+        Check out your INVENTORY (aka INV to the "in crowd" who use cool words)
+        TALK to someone?  Are there even people here?
+        You can always try to go EAST, WEST, NORTH, or SOUTH.""")
+        exec(this_room + "(last_room)")
+        return
+    elif mcinput.lower() == "get":
+        print("Get?  Get what?  You got nothing.")
+    elif mcinput.lower().startswith("get "):
+        print(f"""
+        \rYou consider getting {mcinput[4:]} in case you might need it later.
+        \rJust between us, {player}, you're not gonna.  You should leave
+        \r{mcinput[4:]} behind.""")
+    elif mcp("left") or mcp("right") or mcp("straight") or mcp("forward"):
+        print(f"""
+        \rListen, {player}, I'm just a dumb computer.  I don't know words like
+        \r"straight" or "left" or "right".  I understand NORTH, SOUTH, EAST,
+        \rand WEST.  If I could actually understand WORDS, I would probably
+        \rtake your job, assume your identity, and taunt you perpetually.
+        """)
+    else:
+        print(f"""I don't know what you mean by "{mcinput}".""")
 
 
 def start():
@@ -80,10 +104,9 @@ def cave_entrance(previous):
     last_room = previous
     this_room = "cave_entrance"
     print(f"""
-    Well, {player}, it looks like you've found yourself in the entrance to a cave!
-    The light from outside shows paths leading EAST, WEST, and NORTH.
-    Which way would you like to go?
-    """)
+    \rIt looks like you've found yourself in the entrance to a cave!  The light
+    \rfrom outside shows paths leading EAST, WEST, and NORTH.  Which way would
+    \ryou like to go?""")
     mci()
     # offer choices left, right, forwared, back out of the cave
     if mcp("east"):
@@ -94,8 +117,8 @@ def cave_entrance(previous):
         long_walk(this_room)
     elif mcp("south") or mcp("out") or mcp("exit") or mcp("leave"):
         print("""
-        You decide it would be best to leave this cave.  It's probably dangerous.
-        See ya!
+        \rYou decide it would be best to leave this cave.  It's probably
+        \rdangerous.  See ya!
         """)
         end()
     else:
@@ -104,12 +127,10 @@ def cave_entrance(previous):
 
 
 def hobo_bedroom(previous):
+    global last_room, this_room, player
     this_room = "hobo_bedroom"
     last_room = previous
-    #TEST>>
-    print(f"this_room:  {this_room}")
-    print(f"previous:  {previous}")
-    print(f"last_room:  {last_room}")
+    global hobo_bedroom_rocks_moved
     print(f"""
     You look around with your handy flashlight, and see some trash. Someone
     might live here.  One cave wall looks like it was arranged by human hands.
@@ -120,14 +141,17 @@ def hobo_bedroom(previous):
         mci()
 
         if mcp("examine") and not mcp("wall"):
-            print("Maybe you should consider examining SOMETHING. Like, the wall, for example.")
+            print("""Maybe you should consider examining SOMETHING.
+            \rFor example, one might EXAMINE a WALL.""")
         elif mcp("examine", "wall"):
-            print("Looks like someone carefully arranged these rocks to...")
-            # This will get complicated.
+            print("""Looks like someone carefully arranged these rocks to hide
+            \rsomething. You could MOVE the rocks to take a look.""")
         elif mcp("trash"):
-            print("Ew.")
+            print("Eww.")
         elif mcp("west"):
-            cave_entrance()
+            cave_entrance(this_room)
+        else:
+            mcdu()
 
 
 def hobo_cache():
@@ -240,6 +264,8 @@ def end():
 
 this_room = ""
 last_room = ""
+inventory = ['your flashlight']
+hobo_bedroom_rocks_moved = False
 
 os.system('cls')
 start()
