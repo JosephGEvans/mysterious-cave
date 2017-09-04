@@ -68,26 +68,6 @@ def mcdu():
         """)
 
 
-def flashlight_is_off():
-    flashlight_warnings = [
-    f"You can't see anything, {player}.  Your flashlight is off."
-    "Yeah, you can't see anything.  It's dark."
-    "Its really hard to LOOK when its so dark."
-    "It's dark.  Be nice if you had some kind of illumination device."
-    f"{player}, really.  You need to turn on your flashlight to see in here."
-    ]
-    print(random.SystemRandom().choice(flashlight_warnings))
-
-def switch_flashlight_on_or_off():
-    global flashlight_on
-    if flashlight_on:
-        flashlight_on = False
-        print("You turn off your flashlight.")
-    else:
-        flashlight_on = True
-        print("You turn on your flashlight.  You can see again!")
-
-
 def start():
     # get user's name
     print("Hello, there!  What is your name?")
@@ -162,9 +142,9 @@ def hobo_bedroom(previous):
     global hobo_bedroom_rocks_moved
 
     print(
-    f"""\rYou look around with your handy flashlight, and see some trash.
-    \rSomeone might live here.  One cave wall looks like it was arranged by
-    \rhuman hands.  You can EXAMINE the wall, or exit back to the WEST."""
+    f"""\rYou look around and see some trash.  Someone might live here.
+    \rOne cave wall looks like it was arranged by human hands.
+    \rYou can LOOK at the WALL, or exit back to the WEST."""
     )
 
     while True:
@@ -200,10 +180,8 @@ def hobo_cache(previous):
     last_room = previous
     this_room = "hobo_cache"
 
-    if flashlight_on:
-        print("Stuff in the hobo cache.")
-    else:
-        flashlight_is_off()
+    print("Stuff in the hobo cache.")
+    while True:
         mci()
 
 
@@ -367,9 +345,10 @@ def end():
 
 this_room = ""
 last_room = ""
-inventory = ['your flashlight']
+inventory = [
+    "your flashlight, which you've been using to light up this dark cave"
+    ]
 hobo_bedroom_rocks_moved = False
-flashlight_on = False
 
 os.system('cls')
 start()
