@@ -62,8 +62,9 @@ def mcdu():
         exec(this_room + "(last_room)")
         return
     else:
-        print(f"""
-        \rI don't know what you mean by "{mcinput}".  Type HELP if you need it.
+        print(
+        f"""\rI don't know what you mean by "{mcinput}".
+        \rType HELP if you need it.
         """)
 
 
@@ -76,6 +77,15 @@ def flashlight_is_off():
     f"{player}, really.  You need to turn on your flashlight to see in here."
     ]
     print(random.SystemRandom().choice(flashlight_warnings))
+
+def switch_flashlight_on_or_off():
+    global flashlight_on
+    if flashlight_on:
+        flashlight_on = False
+        print("You turn off your flashlight.")
+    else:
+        flashlight_on = True
+        print("You turn on your flashlight.  You can see again!")
 
 
 def start():
@@ -137,6 +147,9 @@ def cave_entrance(previous):
         \rdangerous.  See ya!
         """)
         end()
+    elif mcp("left") or mcp("right") or mcp("straight"):
+        print("Try typing EAST, WEST, or NORTH.\n")
+        cave_entrance(previous)
     else:
         mcdu()
         cave_entrance(previous)
@@ -157,21 +170,27 @@ def hobo_bedroom(previous):
     while True:
         mci()
 
-        if mcp("examine") and not mcp("wall"):
-            print("""Maybe you should consider examining SOMETHING.
-            \rFor example, one might EXAMINE a WALL.""")
-        elif mcp("examine", "wall"):
+        if mcp("examine", "wall") or mcp("look", "wall"):
             if hobo_bedroom_rocks_moved:
                 hobo_cache("hobo_bedroom")
                 break
             else:
-                print("""
-                \rLooks like someone carefully arranged these rocks to hide
+                print(
+                """\rLooks like someone carefully arranged these rocks to hide
                 \rsomething. You could MOVE the rocks to take a look.""")
+        elif mcp("examine"):
+            print("""Maybe you should consider examining SOMETHING.
+            \rFor example, one might EXAMINE a WALL.""")
         elif mcp("trash"):
             print("Eww.")
         elif mcp("west"):
             cave_entrance(this_room)
+            break
+        elif mcp("move", "rock"):
+            hobo_bedroom_rocks_moved = True
+            print("You move the rocks.  Take another look at the wall.")
+        elif mcp("move"):
+            print("You move.")
         else:
             mcdu()
 
@@ -180,6 +199,14 @@ def hobo_cache(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "hobo_cache"
+
+    if flashlight_on:
+        print("Stuff in the hobo cache.")
+    else:
+        flashlight_is_off()
+        mci()
+
+
     pass
 
 
@@ -342,6 +369,7 @@ this_room = ""
 last_room = ""
 inventory = ['your flashlight']
 hobo_bedroom_rocks_moved = False
+flashlight_on = False
 
 os.system('cls')
 start()
