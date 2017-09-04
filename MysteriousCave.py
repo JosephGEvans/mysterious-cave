@@ -13,7 +13,6 @@ def mci():
 def mcp(*certainWords):
     "Mystery Cave Parser"
     "Compares strings with input string and returns True or False"
-    "[will accept] strings, variables, and boolean operators like NOT"
 
     thereOrNotThere = True
     for word in certainWords:
@@ -30,7 +29,6 @@ def mcdu():
     "Mystery Cave Don't Understand"
     "Catch all for when your words don't apply to the specific situation."
 
-
     if mcinput.lower() == "get":
         print("Get?  Get what?  You got nothing.")
     elif mcinput.lower().startswith("get "):
@@ -38,7 +36,10 @@ def mcdu():
         \rYou consider getting {mcinput[4:]} in case you might need it later.
         \rJust between us, {player}, you're not gonna.  You should leave
         \r{mcinput[4:]} behind.""")
-    elif "back" in mcinput.lower():
+    elif mcp("look"):
+        exec(this_room + "(last_room)")
+        return
+    elif mcp("back"):
         exec(last_room + "(this_room)")
         return
     elif mcp("left") or mcp("right") or mcp("straight") or mcp("forward"):
@@ -51,7 +52,7 @@ def mcdu():
     elif "help" in mcinput.lower():
         print("""Here are some things you can try:
 
-        LOOK at something
+        LOOK at something, or just LOOK around
         GET something
         USE something
         Check out your INVENTORY (aka INV to the "in crowd" who use cool words)
@@ -146,6 +147,7 @@ def hobo_bedroom(previous):
     this_room = "hobo_bedroom"
     last_room = previous
     global hobo_bedroom_rocks_moved
+
     print(
     f"""\rYou look around with your handy flashlight, and see some trash.
     \rSomeone might live here.  One cave wall looks like it was arranged by
