@@ -53,6 +53,8 @@ def mcdu():
         \rand WEST.  If I could actually understand WORDS, I would probably
         \rtake your job, assume your identity, and taunt you perpetually.
         """)
+    elif mcp("east") or mcp("west") or mcp("north") or mcp("south"):
+        print("There's nothing that way.")
     elif "help" in mcinput.lower():
         print("""Here are some things you can try:
 
@@ -168,7 +170,7 @@ def hobo_bedroom(previous):
             \rFor example, one might EXAMINE a WALL.""")
         elif mcp("trash"):
             print("Eww.")
-        elif mcp("west"):
+        elif mcp("west") or mcp("exit"):
             cave_entrance(this_room)
             break
         elif mcp("move", "rock"):
@@ -201,7 +203,7 @@ def hobo_cache(previous):
         elif mcp("beans"):
             print("""It's a can of "beans".  You don't want it.  Don't get it.
             """)
-        elif mcp("bean):
+        elif mcp("bean"):
             print("""What, like a single bean?  It's in the can, which you CAN't
             \ropen.  Get it?  A can?  CAN't?  Anyway, no, you may not.""")
         elif mcp("glasses"):
@@ -209,7 +211,7 @@ def hobo_cache(previous):
         elif mcp("look","used"):
             print(
             """\rYou decide to take a closer look at the... never mind.  You
-            changed your mind.  It is terrible and aweful and gross.""")
+            \rchanged your mind.  It is terrible and aweful and gross.""")
         elif mcp("get",  "used"):
             print(
             f"""\rWow, {player}, that is messed up.  You should probably lose
@@ -217,7 +219,7 @@ def hobo_cache(previous):
         elif mcp("what"):
             print("Here's what you should do.  Back away from this hobo stash.")
         elif mcp("west"):
-            cave_entrance()
+            cave_entrance("hobo_bedroom")
             break
         else:
             mcdu()
