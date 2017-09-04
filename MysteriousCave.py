@@ -36,6 +36,11 @@ def mcdu():
         \rYou consider getting {mcinput[4:]} in case you might need it later.
         \rJust between us, {player}, you're not gonna.  You should leave
         \r{mcinput[4:]} behind.""")
+    elif mcp("inv"):
+        print("You check your inventory, and you have:")
+        for item in inventory:
+            print("\t" + item)
+        print("\n")
     elif mcp("look"):
         exec(this_room + "(last_room)")
         return
@@ -142,9 +147,10 @@ def hobo_bedroom(previous):
     global hobo_bedroom_rocks_moved
 
     print(
-    f"""\rYou look around and see some trash.  Someone might live here.
-    \rOne cave wall looks like it was arranged by human hands.
-    \rYou can LOOK at the WALL, or exit back to the WEST."""
+    f"""\rYou're at a dead end just east of the cave entrance.  You look around
+    \rand see some trash.  Someone might live here.  One cave wall looks like it
+    \rwas arranged by human hands.  You can LOOK at the WALL, or exit back to
+    \rthe WEST."""
     )
 
     while True:
@@ -152,7 +158,7 @@ def hobo_bedroom(previous):
 
         if mcp("examine", "wall") or mcp("look", "wall"):
             if hobo_bedroom_rocks_moved:
-                hobo_cache("hobo_bedroom")
+                hobo_cache(this_room)
                 break
             else:
                 print(
@@ -346,7 +352,7 @@ def end():
 this_room = ""
 last_room = ""
 inventory = [
-    "your flashlight, which you've been using to light up this dark cave"
+    "A flashlight, which you've been using to light up this dark cave"
     ]
 hobo_bedroom_rocks_moved = False
 
