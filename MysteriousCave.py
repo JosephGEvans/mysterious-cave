@@ -267,7 +267,33 @@ def long_walk(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "long_walk"
-    pass
+
+    print(
+    """\rYou head north into a dark passage, and walk for a long time.
+    \rEventually, you reach a spot where a dark passage veers WEST, and a darker
+    \rpassage continues to the NORTH.  Really, though, you should head back
+    \rSOUTH and leave this scary cave."""
+    )
+
+    while True:
+        mci()
+
+        if mcp("east"):
+            print(
+            f"""\rYou hastily slam your face into a sold rock wall to the EAST,
+            \rbecause you weren't paying attention at all when I told you that
+            \rthe paths lead WEST, NORTH, and SOUTH.  {player}!""")
+        elif mcp("west"):
+            empty_cavern(this_room)
+            break
+        elif mcp("north"):
+            longer_twisty_walk(this_room)
+            break
+        elif mcp("south") or mcp("leave"):
+            cave_entrance(this_room)
+            break
+        else:
+            mcdu()
 
 
 def empty_cavern(previous):
