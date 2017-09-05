@@ -35,6 +35,8 @@ def mcdu():
         \rYou consider getting {mcinput[4:]} in case you might need it later.
         \rJust between us, {player}, you're not gonna.  You should leave
         \r{mcinput[4:]} behind.""")
+    elif mcp("use"):
+        print(f"You cannot use that.")
     elif mcp("inv"):
         print("You check your inventory, and you have:")
         for item in inventory:
@@ -43,6 +45,8 @@ def mcdu():
     elif mcp("look"):
         exec(this_room + "(last_room)")
         return
+    elif mcp("talk"):
+        print("You talk, but no one listens.")
     elif mcp("back"):
         exec(last_room + "(this_room)")
         return
@@ -84,9 +88,8 @@ def start():
     f"""\rWell, hello there, {player}. Tell me, how does this story sound?
 
     {player} is looking at a mysterious cave...
-    A snake is slithering towards {player}!
-    Oh! But then, the snake keeps on going.
-    {player} is very relieved.
+    A snake is slithering towards {player}.  Oh!
+    But then, the snake keeps on going.  {player} is very relieved.
 
     \rIf your name looks weird there, you can change it.""")
 
@@ -121,9 +124,9 @@ def cave_entrance(previous):
     \rwould you like to go?""")
     mci()
     # offer choices left, right, forwared, back out of the cave
-    if mcp("east"):
+    if mcp("west"):
         hobo_bedroom(this_room)
-    elif mcp("west"):
+    elif mcp("east"):
         perfect_cube_room(this_room)
     elif mcp("north"):
         long_walk(this_room)
@@ -148,10 +151,10 @@ def hobo_bedroom(previous):
     global hobo_bedroom_rocks_moved
 
     print(
-    f"""\rYou're at a dead end just east of the cave entrance.  You look around
+    f"""\rYou're at a dead end just west of the cave entrance.  You look around
     \rand see some trash.  Someone might live here.  One cave wall looks like it
     \rwas arranged by human hands.  You can LOOK at the WALL, or exit back to
-    \rthe WEST."""
+    \rthe EAST."""
     )
 
     while True:
@@ -170,7 +173,7 @@ def hobo_bedroom(previous):
             \rFor example, one might EXAMINE a WALL.""")
         elif mcp("trash"):
             print("Eww.")
-        elif mcp("west") or mcp("exit"):
+        elif mcp("east") or mcp("exit"):
             cave_entrance(this_room)
             break
         elif mcp("move", "rock"):
@@ -215,10 +218,13 @@ def hobo_cache(previous):
         elif mcp("get",  "used"):
             print(
             f"""\rWow, {player}, that is messed up.  You should probably lose
-            \rthis game right now.  Consider this a warning.""")
+            \rthis game right now!  Consider this a warning.""")
+        elif mcp("used"):
+            print(
+            f"""\r{player}, step away from the soiled materials.""")
         elif mcp("what"):
             print("Here's what you should do.  Back away from this hobo stash.")
-        elif mcp("west"):
+        elif mcp("east"):
             cave_entrance("hobo_bedroom")
             break
         else:
@@ -231,7 +237,30 @@ def perfect_cube_room(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "perfect_cube_room"
-    pass
+
+    print(
+    """\rYou've entered some kind of perfectly shaped cube room just east of the
+    \rcave entrance.  The stone ceiling, ground, and walls are all cut flat and
+    \rsmooth.  This must have taken a lot of long, hard work.  Who would do such
+    \ra thing?  You can't see anything to do here other than exit to the WEST.
+    """
+    )
+
+    while True:
+        mci()
+
+        if mcp("look", "wall"):
+            print("Yep, there are walls here.  They are perfectly cut.")
+        elif mcp("get"):
+            print(
+            """\rUm, there is nothing here to get.  You can't get anything.""")
+        elif mcp("use"):
+            print("Honestly, this room is very boring, and you should leave.")
+        elif mcp("west") or mcp("leave") or mcp("exit"):
+            cave_entrance(this_room)
+            break
+        else:
+            mcdu()
 
 
 def long_walk(previous):
