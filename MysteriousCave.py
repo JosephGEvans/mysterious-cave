@@ -1,5 +1,6 @@
 from sys import exit
 import os
+import random
 
 
 def mci():
@@ -28,6 +29,28 @@ def mcdu():
     "Mystery Cave Don't Understand"
     "Catch all for when your words don't apply to the specific situation."
 
+    cant_use = [
+        "You can't.",
+        "Nope.",
+        "You cannot use that.",
+        "Try using, or getting, or doing something else.",
+        "Can't use that.",
+        "I'm guessing you don't have that; therefore, you can't use that."
+        ]
+    cant_get = [
+        f"Planning to 'use {mcinput[4:]}' later on, are we?  No.",
+        f"""\rYou consider "getting {mcinput[4:]}" in case you might need it
+        \rlater.  Just between us, {player}:  you're not gonna.
+        """,
+        f"Don't try to get {mcinput[4:]}, {player}.  You shouldn't.",
+        f"You cannot get {mcinput[4:]}.",
+        "Nope.",
+        "Can't.",
+        "Don't.",
+        "Stop it.  That's not a thing."
+        ]
+
+
     if mcinput.lower() == "get":
         print("Get?  Get what?  You got nothing.")
     elif mcp("get","flashlight"):
@@ -46,17 +69,14 @@ def mcdu():
     elif mcp("get", "back", "to", "reality"):
         print("Ha!  No.  Reality continues to elude you.\n")
     elif mcinput.lower().startswith("get "):
-        print(
-        f"""\rYou consider "getting {mcinput[4:]}" in case you might need it
-        \rlater.  Just between us, {player}:  you're not gonna.
-        """)
+        print(random.choice(cant_get))
     elif mcp("use", "flashlight"):
         print(
         f"""\rHonestly, {player}?  You're always using your flashlight.  This is
         \ra cave.
         """)
     elif mcp("use"):
-        print(f"You cannot use that.")
+        print(random.choice(cant_use))
     elif mcp("inv"):
         print("You check your inventory, and you have:")
         for item in inventory:
@@ -71,11 +91,12 @@ def mcdu():
         exec(last_room + "(this_room)")
         return
     elif mcp("left") or mcp("right") or mcp("straight") or mcp("forward"):
-        print(f"""
-        \rListen, {player}, I'm just a dumb computer.  I don't know words like
-        \r"straight" or "left" or "right".  I understand NORTH, SOUTH, EAST,
-        \rand WEST.  If I could actually understand WORDS, I would probably
-        \rtake your job, assume your identity, and taunt you perpetually.
+        print(
+        f"""\rListen, {player}, I'm just a dumb computer.  I don't know words
+        \rlike "straight" or "left" or "right".  I understand NORTH, SOUTH,
+        \rEAST, and WEST.  If I could actually understand WORDS, I would
+        \rprobably take your job, assume your identity, and taunt you
+        \rperpetually.
         """)
     elif mcp("east") or mcp("west") or mcp("north") or mcp("south"):
         print("There's nothing that way.")
