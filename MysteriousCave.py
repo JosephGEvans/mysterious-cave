@@ -30,11 +30,31 @@ def mcdu():
 
     if mcinput.lower() == "get":
         print("Get?  Get what?  You got nothing.")
+    elif mcp("get","flashlight"):
+        print(
+        """\rYou have a flashlight.  Check your INVENTORY.  Also, without a
+        \rflashlight, how would you see any other FLASHLIGHTS you intend to GET?
+        \rAre you hallucinating other flashlights?  Maybe you should consider
+        \rtyping "GET out of this cave" where you can "GET back to reality".
+        """)
+    elif mcp("get", "out", "of", "this", "cave"):
+        print(
+        f"""\rA wise move.  You scramble all the way back out of the cave.
+        \rBye, {player}.  Take it easy.  See somebody about that flashlight
+        \rthing.""")
+        end()
+    elif mcp("get", "back", "to", "reality"):
+        print("Ha!  No.  Reality continues to elude you.\n")
     elif mcinput.lower().startswith("get "):
-        print(f"""
-        \rYou consider getting {mcinput[4:]} in case you might need it later.
-        \rJust between us, {player}, you're not gonna.  You should leave
-        \r{mcinput[4:]} behind.""")
+        print(
+        f"""\rYou consider "getting {mcinput[4:]}" in case you might need it
+        \rlater.  Just between us, {player}:  you're not gonna.
+        """)
+    elif mcp("use", "flashlight"):
+        print(
+        f"""\rHonestly, {player}?  You're always using your flashlight.  This is
+        \ra cave.
+        """)
     elif mcp("use"):
         print(f"You cannot use that.")
     elif mcp("inv"):
@@ -297,10 +317,66 @@ def long_walk(previous):
 
 
 def empty_cavern(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, have_stalagmite, have_stalactite
     last_room = previous
     this_room = "empty_cavern"
-    pass
+
+    print(
+    """\rYou arrive in a great, empty cavern.  There are all kinds of
+    \rstalagmites, and stalactites, and drippy cave sounds.  The scary path is
+    \rback to the EAST.""")
+
+    while True:
+        mci()
+
+        if mcp("get", "stalactite"):
+            if have_stalactite:
+                print("You already have a stalactite.  Check your INVENTORY.")
+            elif have_stalagmite:
+                have_stalactite = True
+                inventory.insert(0, "A pointy, yet brittle stalactite")
+                print(
+                """\rYou already took a stalagmite.  But, hey, you need to hold
+                \ra stalactite in your hand to really be sure they're different.
+                \rA dark force is awakened deep, deep down in the cavern by your
+                \rreckless disregard for cave preservation.  And greed.""")
+            else:
+                have_stalactite = True
+                inventory.insert(0, "A pointy, yet brittle stalactite")
+                print(
+                """\rYou reach for one of the small, pointy stalactites hanging
+                \rfrom the ceiling nearby.  It breaks off surprisingly easily.
+                \rThe Historical Cave Preservation Society puts a warrant out
+                \rfor your arrest.""")
+        elif mcp("get", "stalagmite"):
+            if have_stalagmite:
+                print(
+                """\rHow many stalagmites can you really hope to use?  There's
+                \rone in your INVENTORY already.""")
+            elif have_stalactite:
+                have_stalagmite = True
+                inventory.insert(0, "Some stalagmite you stole from somewhere")
+                print(
+                f"""\rNice, {player}, take both kinds.  They are 100%, totally
+                \rdifferent pointy cave things.  I mean, one comes from the
+                \rground, and the other from the ceiling!  You're not greedy,
+                \ror anything.  It's good to have different things that are
+                \rnot the same as each other.""")
+            else:
+                have_stalagmite = True
+                inventory.insert(0, "Some stalagmite you stole from somewhere")
+                print(
+                """\rYou push, and pull, and finally manage to snap off a
+                \rstalagmite from the ground.  It's pretty heavy.  I hope its
+                \rworth being a fugitive from the Historical Cave Preservation
+                \rSociety for the rest of your days.  They'll definitely be
+                \rtalking bad about you on the Internet.""")
+        elif mcp("east"):
+            long_walk(this_room)
+            break
+        else:
+            mcdu()
+
 
 
 def longer_twisty_walk(previous):
@@ -441,6 +517,8 @@ inventory = [
     "A flashlight, which you've been using to light up this dark cave"
     ]
 hobo_bedroom_rocks_moved = False
+have_stalactite = False
+have_stalagmite = False
 
 os.system('cls')
 start()
