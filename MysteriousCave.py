@@ -396,12 +396,23 @@ def empty_cavern(previous):
             print("Yeah, look!  Stalactites!")
         elif mcp("look","stalagmite"):
             print(f"Well, will you look at that.  {player}, look:  stalagmites!")
+        elif mcp("talk"):
+            print(
+            """\rOooh, listen:  Echos!
+            \rEchos
+            echos
+            \rHEY
+            HEY
+            \they
+            \rLEGGO MY ECHO!
+            LEGGO My Echo
+            \tleggo my echo
+            """)
         elif mcp("east"):
             long_walk(this_room)
             break
         else:
             mcdu()
-
 
 
 def longer_twisty_walk(previous):
