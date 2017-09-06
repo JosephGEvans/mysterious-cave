@@ -310,10 +310,10 @@ def long_walk(previous):
     this_room = "long_walk"
 
     print(
-    """\rYou head north into a dark passage, and walk for a long time.
-    \rEventually, you reach a spot where a dark passage veers WEST, and a darker
-    \rpassage continues to the NORTH.  Really, though, you should head back
-    \rSOUTH and leave this scary cave."""
+    """\rYou're in the dark passage heading north, and walk for a long time.
+    \rEventually, you reach a spot where the dark passage veers WEST, and an
+    \reven darker passage continues to the NORTH.  Really, though, you should
+    \rhead back SOUTH and leave this scary cave."""
     )
 
     while True:
@@ -343,7 +343,7 @@ def empty_cavern(previous):
     this_room = "empty_cavern"
 
     print(
-    """\rYou arrive in a great, empty cavern.  There are all kinds of
+    """\rThis is a great, big, empty cavern.  There are all kinds of
     \rstalagmites, and stalactites, and drippy cave sounds.  The scary path is
     \rback to the EAST.""")
 
@@ -392,6 +392,10 @@ def empty_cavern(previous):
                 \rworth being a fugitive from the Historical Cave Preservation
                 \rSociety for the rest of your days.  They'll definitely be
                 \rtalking bad about you on the Internet.""")
+        elif mcp("look","stalactite"):
+            print("Yeah, look!  Stalactites!")
+        elif mcp("look","stalagmite"):
+            print(f"Well, will you look at that.  {player}, look:  stalagmites!")
         elif mcp("east"):
             long_walk(this_room)
             break
