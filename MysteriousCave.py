@@ -425,16 +425,53 @@ def longer_twisty_walk(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "longer_twisty_walk"
-    #climb up
-    #climb down
-    pass
+
+    print(
+    """\rThe passage narrows.  It twists.  It climbs.  It drops.  It gets
+    \rcreepier, and darker, and danker.  In front of you the passage kind of
+    \rforks UP and it forks DOWN.
+    \r\tYou could leave, you know.  Type SOUTH three times and you're safe in
+    \rthe sunshine.  I mean, as safe as you can be with murderers and theives
+    \rand politicians out there.""")
+
+    while True:
+        mci()
+
+        if "south south south" in mcinput.lower():
+            print(
+            f"You leave in a super hurry.  Good idea.  Good bye, {player}.")
+            end()
+        elif mcp("east") or mcp("west"):
+            print("Can't go that way; just UP, DOWN, or SOUTH.")
+        elif mcp("UP"):
+            vast_expanse(this_room)
+            break
+        elif mcp("DOWN"):
+            narrow_squeeze(this_room)
+            break
+        elif mcp("north"):
+            print(
+            """\rYou head NORTH and cartoonishly smash into the rock divider
+            \rbetween the two passages leading UP and DOWN.""")
+        elif mcp("south"):
+            long_walk(this_room)
+        else:
+            mcdu()
 
 
 def vast_expanse(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "vast_expanse"
-    pass
+
+    print("You survey a vast expanse.")
+
+    while True:
+        mci()
+
+        if
+
+
 
 
 def narrow_squeeze(previous):
@@ -444,6 +481,11 @@ def narrow_squeeze(previous):
     #forward
     #back
     pass
+
+        elif mcp("east") or mcp("west"):
+            print(
+            """\rUm, your shoulders already extend from the East to the West.
+            \rYou're lucky you can move at all.""")
 
 
 def open_cavern(previous):
