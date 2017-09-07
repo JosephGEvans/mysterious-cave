@@ -87,6 +87,12 @@ def mcdu():
         return
     elif mcp("talk"):
         print("You talk, but no one listens.")
+    elif mcp("say"):
+        print(
+        """\rMmm, you can't really SAY stuff in this game.  I'm... look, I'm
+        \rjust not really a real person.  Sorry to disappoint you.  I have no
+        \ridea what you are saying.  I can only guess it is mostly dumb stuff,
+        \rbut I'll never be sure.""")
     elif mcp("back"):
         exec(last_room + "(this_room)")
         return
@@ -399,13 +405,13 @@ def empty_cavern(previous):
         elif mcp("talk"):
             print(
             """\rOooh, listen:  Echos!
-            \rEchos
+            \r\tEchos
             echos
             \rHEY
-            HEY
-            \they
+            \r\tHEY
+            hey
             \rLEGGO MY ECHO!
-            LEGGO My Echo
+            \r\tLEGGO My Echo
             \tleggo my echo
             """)
         elif mcp("east"):
