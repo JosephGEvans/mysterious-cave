@@ -281,7 +281,7 @@ def hobo_cache(previous):
 def perfect_cube_room(previous):
     #secret entrance to finished path
     #cant find secret entrance unless exited through it once (no seams in room)
-    global last_room, this_room, player
+    global last_room, this_room, player, key_gag_initiated
     last_room = previous
     this_room = "perfect_cube_room"
 
@@ -544,11 +544,20 @@ def narrow_squeeze(previous):
 
 
 def open_cavern(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, key_gag_initiated
     last_room = previous
     this_room = "open_cavern"
     #pool
     #door?
+    #get in pool
+    #You get... in the pool?  You splash about in the pool like a happy baby.
+    #You giggle like a happy baby.  This cave is no place for babies.  Get out.
+    #Get out if in_pool = True
+    #You get out of the pool.  Now you're wet, though.
+    #Get out if in_pool = False
+    #I meant get out of the pool, of course.
+
+    # Pretend there is a key to a door in here way back in the cube room...
     pass
 
 
@@ -658,6 +667,7 @@ inventory = [
 hobo_bedroom_rocks_moved = False
 have_stalactite = False
 have_stalagmite = False
+key_gag_initiated = False
 
 os.system('cls')
 start()
