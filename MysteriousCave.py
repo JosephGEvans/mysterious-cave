@@ -223,7 +223,7 @@ def hobo_bedroom(previous):
         elif mcp("east") or mcp("exit"):
             cave_entrance(this_room)
             break
-        elif mcp("move", "rock"):
+        elif mcp("move", "rock") or mcp("use", "rock"):
             hobo_bedroom_rocks_moved = True
             print("You move the rocks.  Take another look at the wall.")
         elif mcp("move"):
@@ -497,21 +497,44 @@ def vast_expanse(previous):
             mcdu()
 
 
-
-
-
 def narrow_squeeze(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "narrow_squeeze"
-    #forward
-    #back
-    pass
 
+    print(
+    """\rDown you go into the narrowest, squeeziest, most claustrophobic cave
+    \rhole, uh, crawl space thing... place.  This is the part where people get
+    \rstuck and starve and have documentaries made about their failed rescue
+    \rattempt.
+    \r\tLuckily, you're not stuck.  You can go NORTH, or back UP the twisty,
+    \rwindy crawlspace.  At this point it is probably safer to keep going.""")
+
+    while True:
+        mci()
+
+        if mcp("NORTH"):
+            open_cavern(this_room)
+            break
         elif mcp("east") or mcp("west"):
             print(
             """\rUm, your shoulders already extend from the East to the West.
             \rYou're lucky you can move at all.""")
+        elif mcp("south"):
+            print(
+            """\rEh, well, SOUTH isn't technically a choice... but I'll allow
+            \rit this time.  You run SOUTH and crack your head on a low-hanging
+            \rrock.  Suddenly the cave fills with bright lights floating all
+            \rabout!  Did the rock activate some kind of magical pixie light
+            \rstuff?
+            \r\tActually, wait... no, the swirly lights dim and you remember
+            \rthat you hit your head.  SOUTH is not a valid direction.  Try UP.
+            """)
+        elif mcp("talk"):
+            print("NO TALKING!  Shhhh!  This is a cave.")
+        else:
+            mcdu()
+
 
 
 def open_cavern(previous):
