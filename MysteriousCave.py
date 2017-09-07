@@ -455,6 +455,7 @@ def longer_twisty_walk(previous):
             \rbetween the two passages leading UP and DOWN.""")
         elif mcp("south"):
             long_walk(this_room)
+            break
         else:
             mcdu()
 
@@ -473,7 +474,9 @@ def vast_expanse(previous):
     while True:
         mci()
 
-        if mcp("get"):
+        if mcp("get", "peaceful"):
+            print("You get peaceful.  Man, you are some kind of peaceful now!")
+        elif mcp("get"):
             print(
             """\rYou know the problem with this world?  There is too much
             \rGETTING, but not enough LOOKING.  Just relax, you know?  Enjoy
@@ -482,7 +485,7 @@ def vast_expanse(previous):
             print(
             """\rDon't bother listening for echos.  Everything is so far away,
             \ryou won't even hear the sound waves that return to you.""")
-        elif mcp("look"):
+        elif mcp("look") or mcp("survey"):
             print(
             """\rYeah!  That's right.  LOOK.  Absorb.  Enjoy.  One more time...
             """)
@@ -527,11 +530,14 @@ def narrow_squeeze(previous):
             \rrock.  Suddenly the cave fills with bright lights floating all
             \rabout!  Did the rock activate some kind of magical pixie light
             \rstuff?
-            \r\tActually, wait... no, the swirly lights dim and you remember
+            \r\tActually, wait... no.  The swirly lights dim and you remember
             \rthat you hit your head.  SOUTH is not a valid direction.  Try UP.
             """)
         elif mcp("talk"):
             print("NO TALKING!  Shhhh!  This is a cave.")
+        elif mcp("up"):
+            longer_twisty_walk(this_room)
+            break
         else:
             mcdu()
 
