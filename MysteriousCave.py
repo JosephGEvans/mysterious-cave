@@ -464,12 +464,38 @@ def vast_expanse(previous):
     last_room = previous
     this_room = "vast_expanse"
 
-    print("You survey a vast expanse.")
+    print(
+    """\rYou survey a vast expanse.  Your flashlight cannot even hit the cave
+    \rwall in most directions.  You see some shimmering reflections way off in
+    \rthe distance, which is probably some body of water.  This is actually kind
+    \rof peaceful.  The exit is back DOWN.""")
 
     while True:
         mci()
 
-        if
+        if mcp("get"):
+            print(
+            """\rYou know the problem with this world?  There is too much
+            \rGETTING, but not enough LOOKING.  Just relax, you know?  Enjoy
+            \rsurveying the vast expanse.""")
+        elif mcp("talk"):
+            print(
+            """\rDon't bother listening for echos.  Everything is so far away,
+            \ryou won't even hear the sound waves that return to you.""")
+        elif mcp("look"):
+            print(
+            """\rYeah!  That's right.  LOOK.  Absorb.  Enjoy.  One more time...
+            """)
+            vast_expanse(last_room)
+            break
+        elif mcp("north") or mcp("south") or mcp("east") or mcp("west"):
+            print(f"Careful, {player}!  You're on a precipice.  You'll fall.")
+        elif mcp("down"):
+            longer_twisty_walk(this_room)
+            break
+        else:
+            mcdu()
+
 
 
 
