@@ -545,6 +545,7 @@ def narrow_squeeze(previous):
 
 def open_cavern(previous):
     global last_room, this_room, player, key_gag_initiated, can_see_the_door
+    global have_stalactite, have_stalagmite
     last_room = previous
     this_room = "open_cavern"
     in_pool = False
@@ -605,12 +606,17 @@ def open_cavern(previous):
             print(
             """\rNo one said "EXAMINE"; but if they did, I'm certain that they
             \rwould have intended for you to EXAMINE some THING!""")
+        # mcp("north")?  Door?  Now you can go north?  How does it work?
+        # Break the door with the stalagmite
+        # You hit the door with the stalactite, and it breaks.  Useless.
         elif mcp("south"):
             narrow_squeeze(this_room)
             break
         else:
             mcdu()
-
+# You're going to break the stalactite.  After that, you'll have stalactite
+# powder in your inventory.  If you try to use stalactite powder, you'll fling
+# some of it in anger.  If you don't have it: "You don't have any, um, of that."
 
 
 def transition_hall(previous):
