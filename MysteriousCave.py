@@ -544,21 +544,73 @@ def narrow_squeeze(previous):
 
 
 def open_cavern(previous):
-    global last_room, this_room, player, key_gag_initiated
+    global last_room, this_room, player, key_gag_initiated, can_see_the_door
     last_room = previous
     this_room = "open_cavern"
-    #pool
-    #door?
-    #get in pool
-    #You get... in the pool?  You splash about in the pool like a happy baby.
-    #You giggle like a happy baby.  This cave is no place for babies.  Get out.
-    #Get out if in_pool = True
-    #You get out of the pool.  Now you're wet, though.
-    #Get out if in_pool = False
-    #I meant get out of the pool, of course.
+    in_pool = False
+    wet = False
 
-    # Pretend there is a key to a door in here way back in the cube room...
-    pass
+    print(
+    """\rYou enter a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  There is an interesting wall near the bioluminescent
+    \rpool which you may want to INSPECT.  The whole scene almost reminds you of
+    \rbeing outside at night.  It is beautiful and tranquil.  You can exit to
+    \rthe SOUTH whenever you are ready.
+    """)
+
+    while True:
+        mci()
+
+        if mcp("get","in","pool"):
+            if in_pool:
+                print("You're already in the pool, and I don't like it.")
+            else:
+                in_pool = True
+                wet = True
+                print(
+                """\rYou get... in... the pool?  That is not the way "GET" is
+                \rsupposed to work here.
+
+                \rYou splash about in the blue, glowing water like a happy baby.
+                \rYou giggle like a happy baby.  This cave is no place for
+                \rbabies!  Get out.
+                """)
+        elif mcp("get","out"):
+            if in_pool:
+                in_pool = False
+                print(
+                """\rGood.  Yes.  Thank you.  Dry off!  Who knows what is in
+                \rthat mysterious cave water.  I hope you didn't get any in your
+                \rears.""")
+            elif wet:
+                print(
+                """\rOf course I meant you need to GET OUT of the POOL.  Don't
+                \rbe so sensitive.""")
+            else:
+                print(
+                """\rI don't know what you're talking about.  Is there a pool?
+                \rI'm sure I didn't notice.  If you'd like to get out, you are
+                \rcertainly permitted to leave to the SOUTH.""")
+        elif mcp("LOOK", "WALL") or mcp("EXAMINE","WALL") or mcp("INSPECT","WALL"):
+            can_see_the_door = True
+            key_gag_initiated = True
+            print(
+            """\rCloser to the wall, you can clearly make out a stone door in
+            \rthe cave wall, with what may be a key hole?  Didn't you see a key
+            \rwayyyyy back at the beginning, in that box room?  I'm sure I
+            \rremember something like that.""")
+        elif mcp("inspect"):
+            print("You inspect, ah, um, your fingernails.  They're close by.")
+        elif mcp("examine"):
+            print(
+            """\rNo one said "EXAMINE"; but if they did, I'm certain that they
+            \rwould have intended for you to EXAMINE some THING!""")
+        elif mcp("south"):
+            narrow_squeeze(this_room)
+            break
+        else:
+            mcdu()
+
 
 
 def transition_hall(previous):
@@ -668,6 +720,7 @@ hobo_bedroom_rocks_moved = False
 have_stalactite = False
 have_stalagmite = False
 key_gag_initiated = False
+can_see_the_door = False
 
 os.system('cls')
 start()
