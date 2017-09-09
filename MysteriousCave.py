@@ -3,12 +3,28 @@ import os
 import random
 
 
+# fixes a bug where you would travel in the direction that you looked
+def catch_look(direction):
+    if mcp("look", direction):
+        exec(this_room + "(last_room)")
+    else:
+        return
+
+
 def mci():
     "Mystery Cave Input"
     "Updates a global variable called 'mcinput' with input from the user."
     global mcinput
     mcinput = input("> ")
     os.system('cls')
+
+    catch_look("north")
+    catch_look("south")
+    catch_look("east")
+    catch_look("west")
+    catch_look("up")
+    catch_look("down")
+
 
 def mcp(*certainWords):
     "Mystery Cave Parser"
