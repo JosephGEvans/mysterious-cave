@@ -302,6 +302,26 @@ def perfect_cube_room(previous):
     last_room = previous
     this_room = "perfect_cube_room"
 
+    cant_get_key = [
+        "You try to pick up the key, but you can't.  Is it stuck?",
+        "You try to get the key.  You can't.",
+        "Wait a second... is this even a real key?",
+        "The key is suspiciously attached to the floor.",
+        "It seems like it is part of the floor."
+        ]
+    cant_use_key = [
+        "Ha Ha Ha!  No.",
+        "Oh, that would be nice if it worked, wouldn't it?",
+        "Oh, my, this is so amazing!  Try some more stuff.",
+        f"{player}, you have no idea how amusing it is to see you struggle.",
+        "Heh.  Maybe if you hold it a certain way...",
+        "Really, try the same thing again.  This time it will work.",
+        "Ha!  As if.",
+        "I don't think you're going to get very far with that strategy.",
+        "Okay, okay, okay.  This could work!  Move a little to the left first.",
+        "It is COULD be impossible to get that key.  But keep trying!"
+        ]
+
     print(
     """\rYou've entered some kind of perfectly shaped cube room just east of the
     \rcave entrance.  The stone ceiling, ground, and walls are all cut flat and
@@ -331,16 +351,41 @@ def perfect_cube_room(previous):
 
         if mcp("look", "wall"):
             print("Yep, there are walls here.  They are perfectly cut.")
-        # elif mcp("look","shiny"):
-        #     key_identified = True
-        #     print(
-        #     """\rIt looks like a key.  I wonder if it fits in that door back
-        #     \rin that cavern with the glowing pool.""")
-        # elif mcp("look","key"):
-        #     print(
-        #     """\rThis key looks like it would go to the door by the glowing
-        #     \rpool, deeper in the cave.""")
+        elif mcp("look","shiny"):
+            key_identified = True
+            print(
+            """\rIt looks like a key.  I wonder if it fits in that door back
+            \rin that cavern with the glowing pool.""")
+        elif mcp("look","key"):
 
+            if key_identified:
+                print(
+                """\rThis key looks like it would go to the door by the glowing
+                \rpool, deeper in the cave.""")
+            else:
+                print("Key?  What key?  I don't know what you're talking about.")
+
+        elif mcp("get","key"):
+
+            if key_identified:
+                print(random.choice(cant_get_key))
+            else:
+                print(
+                """\rYou see no keys here, but if there were a key you probably
+                \rcouldn't get it for maddening reason.""")
+
+        elif mcp("use","on","key") or mcp("use","with","key"):
+
+            if key_gag_concluded:
+                print(
+                """\rAs awesome as that was... its over now.  Go away.""")
+            elif key_identified:
+                print(random.choice(cant_use_key))
+            else:
+                print("I have no earthly idea what you are asking for.")
+
+        elif mcp("use","key"):
+            print("How would that work?")
         elif mcp("get"):
             print(
             """\rUm, there is nothing here to get.  You can't get anything.""")
