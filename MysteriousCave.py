@@ -1,6 +1,7 @@
 from sys import exit
 import os
 import random
+import string
 
 
 # fixes a bug where you would travel in the direction that you looked
@@ -16,6 +17,9 @@ def mci():
     "Updates a global variable called 'mcinput' with input from the user."
     global mcinput
     mcinput = input("> ")
+    # strip out punctuation
+    translator = str.maketrans('', '', string.punctuation)
+    mcinput = mcinput.translate(translator)
     os.system('cls')
 
     catch_look("north")
@@ -101,6 +105,8 @@ def mcdu():
     elif mcp("look"):
         exec(this_room + "(last_room)")
         return
+    elif "ok" == mcinput.lower() or "okay" == mcinput.lower():
+        print("Ok?  Ok.")
     elif mcp("talk"):
         print("You talk, but no one listens.")
     elif mcp("say"):
@@ -404,7 +410,7 @@ def long_walk(previous):
     this_room = "long_walk"
 
     print(
-    """\rYou're in the dark passage heading north, and walk for a long time.
+    """\rYou're in a dark passage heading north, and walk for a long time.
     \rEventually, you reach a spot where the dark passage veers WEST, and an
     \reven darker passage continues to the NORTH.  Really, though, you should
     \rhead back SOUTH and leave this scary cave."""
