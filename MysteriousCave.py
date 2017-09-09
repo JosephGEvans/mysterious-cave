@@ -297,7 +297,8 @@ def hobo_cache(previous):
 def perfect_cube_room(previous):
     #secret entrance to finished path
     #cant find secret entrance unless exited through it once (no seams in room)
-    global last_room, this_room, player, key_gag_initiated
+    global last_room, this_room, player, key_gag_initiated, key_gag_concluded
+    global key_identified
     last_room = previous
     this_room = "perfect_cube_room"
 
@@ -306,14 +307,40 @@ def perfect_cube_room(previous):
     \rcave entrance.  The stone ceiling, ground, and walls are all cut flat and
     \rsmooth.  This must have taken a lot of long, hard work.  Who would do such
     \ra thing?  You can't see anything to do here other than exit to the WEST.
-    """
-    )
+    """)
+
+    look_key_gag_ended = """
+    \rThere is a key on the floor that you can't pick up.  Remember how funny
+    \rthat was?  I do!"""
+
+    look_key_gag_shiny = """
+    \rThere is a shiny object on the floor.  Was that there before?"""
+
+    look_key_gag_key = "There is a shiny key on the floor."
+
+    if key_gag_concluded:
+        print(look_key_gag_ended)
+    elif key_identified:
+        print(look_key_gag_key)
+    elif key_gag_initiated:
+        print(look_key_gag_shiny)
+
 
     while True:
         mci()
 
         if mcp("look", "wall"):
             print("Yep, there are walls here.  They are perfectly cut.")
+        # elif mcp("look","shiny"):
+        #     key_identified = True
+        #     print(
+        #     """\rIt looks like a key.  I wonder if it fits in that door back
+        #     \rin that cavern with the glowing pool.""")
+        # elif mcp("look","key"):
+        #     print(
+        #     """\rThis key looks like it would go to the door by the glowing
+        #     \rpool, deeper in the cave.""")
+
         elif mcp("get"):
             print(
             """\rUm, there is nothing here to get.  You can't get anything.""")
@@ -742,6 +769,8 @@ hobo_bedroom_rocks_moved = False
 have_stalactite = False
 have_stalagmite = False
 key_gag_initiated = False
+key_gag_concluded = False
+key_identified = False
 can_see_the_door = False
 
 os.system('cls')
