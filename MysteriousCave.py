@@ -545,8 +545,9 @@ def longer_twisty_walk(previous):
             break
         elif mcp("north"):
             print(
-            """\rYou head NORTH and cartoonishly smash into the rock divider
-            \rbetween the two passages leading UP and DOWN.""")
+            f"""\rYou head NORTH and cartoonishly smash into the rock divider
+            \rbetween the two passages leading UP and DOWN.  You should pay
+            better attention to the description of this area, {player}.""")
         elif mcp("south"):
             long_walk(this_room)
             break
@@ -639,24 +640,45 @@ def narrow_squeeze(previous):
 
 def open_cavern(previous):
     global last_room, this_room, player, key_gag_initiated, can_see_the_door
-    global have_stalactite, have_stalagmite
+    global have_stalactite, have_stalagmite, door_open
     last_room = previous
     this_room = "open_cavern"
     in_pool = False
     wet = False
 
-    print(
-    """\rYou enter a majestic cavern, which seems to be partially lit by a pool
+    look_open_cavern_wall = """
+    \rYou enter a majestic cavern, which seems to be partially lit by a pool
     \rof water nearby.  There is an interesting wall near the bioluminescent
     \rpool which you may want to INSPECT.  The whole scene almost reminds you of
     \rbeing outside at night.  It is beautiful and tranquil.  You can exit to
-    \rthe SOUTH whenever you are ready.
-    """)
+    \rthe SOUTH whenever you are ready."""
+
+    look_open_cavern_door = """
+    \rYou enter a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  There is a door near the bioluminescent pool to the
+    \rNORTH.  The whole scene almost reminds you of being outside at night.  It
+    \ris beautiful and tranquil.  You can exit to the SOUTH whenever you are
+    \rready."""
+
+    look_open_cavern_door_open = """
+    \rYou enter a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  There is a doorway near the bioluminescent pool to the
+    \rNORTH.  The whole scene almost reminds you of being outside at night.  It
+    \ris beautiful and tranquil.  You can exit to the SOUTH whenever you are
+    \rready."""
+
+    if door_open:
+        print(look_open_cavern_door_open)
+    elif can_see_the_door:
+        print(look_open_cavern_door)
+    else:
+        print(look_open_cavern_wall)
 
     while True:
         mci()
 
         if mcp("get","in","pool"):
+
             if in_pool:
                 print("You're already in the pool, and I don't like it.")
             else:
@@ -670,7 +692,9 @@ def open_cavern(previous):
                 \rYou giggle like a happy baby.  This cave is no place for
                 \rbabies!  Get out.
                 """)
+
         elif mcp("get","out"):
+
             if in_pool:
                 in_pool = False
                 print(
@@ -686,6 +710,7 @@ def open_cavern(previous):
                 """\rI don't know what you're talking about.  Is there a pool?
                 \rI'm sure I didn't notice.  If you'd like to get out, you are
                 \rcertainly permitted to leave to the SOUTH.""")
+
         elif mcp("LOOK", "WALL") or mcp("EXAMINE","WALL") or mcp("INSPECT","WALL"):
             can_see_the_door = True
             key_gag_initiated = True
@@ -695,14 +720,24 @@ def open_cavern(previous):
             \rwayyyyy back at the beginning, in that box room?  I'm sure I
             \rremember something like that.""")
         elif mcp("inspect"):
-            print("You inspect, ah, um, your fingernails.  They're close by.")
+            print("You inspect, ah, um, your fingernails.")
         elif mcp("examine"):
             print(
             """\rNo one said "EXAMINE"; but if they did, I'm certain that they
             \rwould have intended for you to EXAMINE some THING!""")
-        # mcp("north")?  Door?  Now you can go north?  How does it work?
         # Break the door with the stalagmite
         # You hit the door with the stalactite, and it breaks.  Useless.
+        elif mcp("north"):
+
+            if door_open:
+                transition_hall(this_room)
+                break
+            elif can_see_the_door:
+                print(
+                """\rYou need to find a way to open the door first.""")
+            else:
+                print("NORTH is a good direction, but you can't go that way.")
+
         elif mcp("south"):
             narrow_squeeze(this_room)
             break
