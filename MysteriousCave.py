@@ -539,9 +539,9 @@ def longer_twisty_walk(previous):
     \rthe sunshine.  I mean, as safe as you can be with murderers and theives
     \rand politicians out there."""
 
-    look_from_north = """To the SOUTH is the twisty, turny, climby, fally,
-    \rcreepy, dank, dark passage.  To the UP is a vast expanse you can survey.
-    \rTo the DOWN is an open cavern."""
+    look_from_north = """Take this the twisty, turny, climby, fally, creepy,
+    \rdank, dark passage all the way, and head SOUTH to keep on going.
+    \rThere are also passages that go UP and DOWN."""
 
     if last_room == "long_walk":
         print(look_from_south)
