@@ -640,7 +640,7 @@ def narrow_squeeze(previous):
             \r\tActually, wait... no.  The swirly lights dim and you remember
             \rthat you hit your head.  SOUTH is not a valid direction.  Try UP.
             """)
-        elif mcp("talk"):
+        elif mcp("talk") or mcp("say"):
             print("NO TALKING!  Shhhh!  This is a cave.")
         elif mcp("up"):
             longer_twisty_walk(this_room)
@@ -851,10 +851,31 @@ def transition_hall(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "transition_hall"
-    #leads to finished room
-    #door requiring a key (found back in the cave somewhere...)
-    #back
-    pass
+
+    print (
+    """\rYou are in a passage that blends natural cave walls with finished ones,
+    \rdecorated with colors and repeating patterns.  The NORTH end leads to a
+    \rnicely finished room.  The SOUTH end leads back into the open cavern.
+    """)
+
+    while True:
+        mci()
+
+        if mcp("look","wall"):
+            print(
+            """\rThere are blues and golds and whites, with patterns of plants
+            \rand flowers that appear to be carefully hand-painted.""")
+        elif mcp("use","pudge","wall"):
+            print(
+            """\rYou desecrate the gorgeous wall paintings with door pudge.""")
+        elif mcp("south"):
+            open_cavern(this_room)
+            break
+        elif mcp("north"):
+            finished_room(this_room)
+            break
+        else:
+            mcdu()
 
 
 def finished_room(previous):
