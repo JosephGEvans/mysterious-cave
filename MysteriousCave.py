@@ -532,13 +532,21 @@ def longer_twisty_walk(previous):
     last_room = previous
     this_room = "longer_twisty_walk"
 
-    print(
-    """\rThe passage narrows.  It twists.  It climbs.  It drops.  It gets
-    \rcreepier, and darker, and danker.  In front of you the passage kind of
-    \rforks UP and it forks DOWN.
+    look_from_south = """The passage twists.  It turns.  It climbs.  It drops.
+    \rIt gets creepier, and darker, and danker.  In front of you the passage
+    \rkind of forks UP and it forks DOWN.
     \r\tYou could leave, you know.  Type SOUTH three times and you're safe in
     \rthe sunshine.  I mean, as safe as you can be with murderers and theives
-    \rand politicians out there.""")
+    \rand politicians out there."""
+
+    look_from_north = """To the SOUTH is the twisty, turny, climby, fally,
+    \rcreepy, dank, dark passage.  To the UP is a vast expanse you can survey.
+    \rTo the DOWN is an open cavern."""
+
+    if last_room == "long_walk":
+        print(look_from_south)
+    else:
+        print(look_from_north)
 
     while True:
         mci()
@@ -557,9 +565,9 @@ def longer_twisty_walk(previous):
             break
         elif mcp("north"):
             print(
-            f"""\rYou head NORTH and cartoonishly smash into the rock divider
-            \rbetween the two passages leading UP and DOWN.  You should pay
-            better attention to the description of this area, {player}.""")
+            f"""\rYou run NORTH, as fast as you can, and crash cartoonishly into
+            \rthe rock divider between two passages leading UP and DOWN.  Pay
+            \rbetter attention to the description of this area, {player}.""")
         elif mcp("south"):
             long_walk(this_room)
             break
@@ -613,12 +621,12 @@ def narrow_squeeze(previous):
     this_room = "narrow_squeeze"
 
     print(
-    """\rDown you go into the narrowest, squeeziest, most claustrophobic cave
-    \rhole, uh, crawl space thing... place.  This is the part where people get
-    \rstuck and starve and have documentaries made about their failed rescue
-    \rattempt.
-    \r\tLuckily, you're not stuck.  You can go NORTH, or back UP the twisty,
-    \rwindy crawlspace.  At this point it is probably safer to keep going.""")
+    """\rWelcome to the narrowest, squeeziest, most claustrophobic cave hole,
+    \ruh, crawl space thing... place.  This is the part where people get stuck
+    \rand starve and have documentaries made about their failed rescue attempt.
+    \rLuckily, you're not stuck.  You can go NORTH, or go back UP the twisty,
+    \rwindy crawlspace.
+    """)
 
     while True:
         mci()
@@ -647,7 +655,6 @@ def narrow_squeeze(previous):
             break
         else:
             mcdu()
-
 
 
 def open_cavern(previous):
@@ -844,7 +851,6 @@ def open_cavern(previous):
             break
         else:
             mcdu()
-
 
 
 def transition_hall(previous):
