@@ -735,7 +735,7 @@ def open_cavern(previous):
                 \rwith a THING though.""")
             else:
                 print("What door?")
-                
+
         elif mcp("thing","door"):
 
             if can_see_the_door:
@@ -770,6 +770,16 @@ def open_cavern(previous):
         # You're going to break the stalactite.  After that, you'll have stalactite
         # powder in your inventory.  If you try to use stalactite powder, you'll fling
         # some of it in anger.  If you don't have it: "You don't have any, um, of that."
+
+        elif mcinput.lower().startswith("open") and mcp("door"):
+
+            if door_open:
+                print("That doorway looks pretty dang open to me!")
+            elif can_see_the_door:
+                print("You open the door.  Then it slams closed in your face!!")
+            else:
+                print("To open a door, one must have located a door to open.")
+
         elif mcp("north"):
 
             if door_open:
