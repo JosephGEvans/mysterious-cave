@@ -48,6 +48,7 @@ def mcp(*certainWords):
 def mcdu():
     "Mystery Cave Don't Understand"
     "Catch all for when your words don't apply to the specific situation."
+    global have_stalactite_powder, have_door_pudge
 
     cant_use = [
         "You can't.",
@@ -90,6 +91,15 @@ def mcdu():
         print("Ha!  No.  Reality continues to elude you.\n")
     elif mcinput.lower().startswith("get "):
         print(random.choice(cant_get))
+    elif mcp("use", "pudge") and have_door_pudge:
+        print("You, uh, squish some pudge between your fingers... feels nice.")
+    elif mcp("stalactite","powder") and have_stalactite_powder:
+        print(
+        """\rYou pull out some stalactite powder and fling it in anger.  None of
+        \rit goes very far, and a small cloud floats back in your face.  Stupid
+        \rstalactite!""")
+    elif mcp("stalactite","powder"):
+        print("You don't have any of, um, that.")
     elif mcp("use", "flashlight"):
         print(
         f"""\rHonestly, {player}?  You're always using your flashlight.  This is
@@ -642,7 +652,8 @@ def narrow_squeeze(previous):
 
 def open_cavern(previous):
     global last_room, this_room, player, key_gag_initiated, can_see_the_door
-    global have_stalactite, have_stalagmite, door_open
+    global have_stalactite, have_stalagmite, door_open, have_door_pudge
+    global have_stalactite_powder
     last_room = previous
     this_room = "open_cavern"
     in_pool = False
@@ -727,6 +738,14 @@ def open_cavern(previous):
             print(
             """\rNo one said "EXAMINE"; but if they did, I'm certain that they
             \rwould have intended for you to EXAMINE some THING!""")
+        elif mcp("thing","door"):
+
+            if can_see_the_door:
+                print("Cute.")
+            else:
+                print("How do you know if there is a door unless you LOOK?")
+
+
         elif mcp("smash","door") or mcp("hit","door"):
 
             if can_see_the_door:
@@ -735,13 +754,6 @@ def open_cavern(previous):
                 \rwith a THING though.""")
             else:
                 print("What door?")
-
-        elif mcp("thing","door"):
-
-            if can_see_the_door:
-                print("Cute.")
-            else:
-                print("How do you know if there is a door unless you LOOK?")
 
         elif mcp("stalagmite","door"):
 
@@ -766,10 +778,31 @@ def open_cavern(previous):
                 else:
                     print("What door?  What stalagmite?  What're you saying???")
 
-        # You hit the door with the stalactite, and it breaks.  Useless.
-        # You're going to break the stalactite.  After that, you'll have stalactite
-        # powder in your inventory.  If you try to use stalactite powder, you'll fling
-        # some of it in anger.  If you don't have it: "You don't have any, um, of that."
+        elif mcp("stalactite","door"):
+
+            if door_open:
+                print(f"Sorry, {player}:  missed your chance on that one.")
+            elif can_see_the_door and have_stalactite:
+                have_stalactite = False
+                have_stalactite_powder = True
+                inventory.insert(0, "Stalactite powder")
+                print(
+                """\rIn a fit of rage at the audacity of any door brazen enough
+                \rto stand in your way, you SMASH... the stalactite against the
+                \rsolid door.  A cloud of stalactite dust puffs away from the
+                \rdoor and settles to the cave floor.  That was anticlimactic.
+                """)
+            elif can_see_the_door and have_stalactite_powder:
+                print("Useless.")
+            elif can_see_the_door:
+                print("What stalactite?  Do you have one of those?")
+            elif have_stalactite:
+                print(
+                """\rThis idea sounds questionable.  How sturdy are stalactites?
+                \rAt any rate, you'd need to find a door to use it on, first."""
+                )
+            else:
+                print("What door?  What stalactite?  You delirious?")
 
         elif mcinput.lower().startswith("open") and mcp("door"):
 
@@ -780,6 +813,21 @@ def open_cavern(previous):
             else:
                 print("To open a door, one must have located a door to open.")
 
+        elif mcp("get","door","pudge"):
+
+            if door_open and have_door_pudge:
+                print(
+                """\rYou already have door pudge.  Check your INVENTORY.""")
+            elif door_open:
+                have_door_pudge = True
+                inventory.insert(0, "Door pudge, if that is even a real thing")
+                print(
+                f"""\rThat is a very strange thing to do, {player}.  Don't let
+                \rme stand in your way, though!  You GET DOOR PUDGE.""")
+            else:
+                print(
+                """\rYou are mentally deranged.  There is no such thing.""")
+
         elif mcp("north"):
 
             if door_open:
@@ -789,7 +837,7 @@ def open_cavern(previous):
                 print(
                 """\rYou need to find a way to open the door first.""")
             else:
-                print("NORTH is a good direction, but you can't go that way.")
+                print("NORTH is a good direction; but you can't go that way.")
 
         elif mcp("south"):
             narrow_squeeze(this_room)
