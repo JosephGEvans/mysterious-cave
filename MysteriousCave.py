@@ -900,8 +900,16 @@ def bath_room(previous):
     last_room = previous
     this_room = "bath_room"
     #toilet
+    # USE TOILET
+    # Ahhhhhhhhhhh.  Good thing this was here!
+    # FLUSH TOILET
+    # It flushes.  I wonder where this leads.  Hopefully not to the glowing pool.
     #shower
+    # USE SHOWER
+    # You turn on the shower.  The water is glowing.  Maybe its not a good idea to use this shower.
     #med cabinet
+    # TAKE MEDICINE
+    # You take some medicine.  NO!  SPIT IT OUT!!
     #finished room
     pass
 
