@@ -533,8 +533,8 @@ def longer_twisty_walk(previous):
     this_room = "longer_twisty_walk"
 
     look_from_south = """The passage twists.  It turns.  It climbs.  It drops.
-    \rIt gets creepier, and darker, and danker.  In front of you the passage
-    \rkind of forks UP and it forks DOWN.
+    \rIt gets creepier, and darker, and danker.
+    \rIn front of you the passage splits:  one way leads UP, the other DOWN.
     \r\tYou could leave, you know.  Type SOUTH three times and you're safe in
     \rthe sunshine.  I mean, as safe as you can be with murderers and theives
     \rand politicians out there."""
@@ -888,11 +888,35 @@ def finished_room(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "finished_room"
-    #back to transition hall
-    #left door to bathroom
-    #straight ahead to bedroom
-    #right door to finished hall
-    pass
+
+    print(
+    """\rThis nicely finished room has the same decorative patterns on the walls
+    \ras the SOUTH hallway.  There are open doorways leading to rooms in every
+    direction.""")
+
+    while True:
+        mci()
+
+        if mcp("look","wall"):
+            print(
+            """\rIt looks just like the patterns in the hallway to the SOUTH,
+            \rexcept every inch of it continues to be unique.  There are blues
+            \rand golds and whites, with patterns of plants and flowers that
+            \rappear to be carefully hand-painted.""")
+        elif mcp("east"):
+            bath_room(this_room)
+            break
+        elif mcp("north"):
+            bed_room(this_room)
+            break
+        elif mcp("west"):
+            finished_hallway(this_room)
+            break
+        elif mcp("south"):
+            transition_hall(this_room)
+            break
+        else:
+            mcdu()
 
 
 def bath_room(previous):
