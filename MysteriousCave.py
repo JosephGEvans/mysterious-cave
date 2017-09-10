@@ -470,6 +470,7 @@ def empty_cavern(previous):
                 \rThe Historical Cave Preservation Society puts a warrant out
                 \rfor your arrest.""")
         elif mcp("get", "stalagmite"):
+
             if have_stalagmite:
                 print(
                 """\rHow many stalagmites can you really hope to use?  There's
@@ -489,9 +490,10 @@ def empty_cavern(previous):
                 print(
                 """\rYou push, and pull, and finally manage to snap off a
                 \rstalagmite from the ground.  It's pretty heavy.  I hope its
-                \rworth being a fugitive from the Historical Cave Preservation
-                \rSociety for the rest of your days.  They'll definitely be
-                \rtalking bad about you on the Internet.""")
+                \rworth carrying this thing around, considering you will be a
+                \rfugitive from the Historical Cave Preservation Society for the
+                \rrest of your days.""")
+
         elif mcp("look","stalactite"):
             print("Yeah, look!  Stalactites!")
         elif mcp("look","stalagmite"):
@@ -725,8 +727,49 @@ def open_cavern(previous):
             print(
             """\rNo one said "EXAMINE"; but if they did, I'm certain that they
             \rwould have intended for you to EXAMINE some THING!""")
-        # Break the door with the stalagmite
+        elif mcp("smash","door") or mcp("hit","door"):
+
+            if can_see_the_door:
+                print(
+                """\rOooooh!  So angry!  You probably have to smash the door
+                \rwith a THING though.""")
+            else:
+                print("What door?")
+                
+        elif mcp("thing","door"):
+
+            if can_see_the_door:
+                print("Cute.")
+            else:
+                print("How do you know if there is a door unless you LOOK?")
+
+        elif mcp("stalagmite","door"):
+
+            if door_open:
+                print("The door is already open.  Go NORTH through the door!")
+            else:
+
+                if can_see_the_door and have_stalagmite:
+                    door_open = True
+                    key_gag_concluded = True
+                    print(
+                    """\rIn a fit of rage at the audacity of any door brazen
+                    \renough to stand in your way, you SMASH the door into a
+                    \rpuddle of door pudge with a stalagmite club.  The way is
+                    \ropen!""")
+                elif can_see_the_door:
+                    print("What stalagmite?  Do you have one of those?")
+                elif have_stalagmite:
+                    print(
+                    """\rSounds like a great idea.  Why don't you find some door
+                    \rto use it on.""")
+                else:
+                    print("What door?  What stalagmite?  What're you saying???")
+
         # You hit the door with the stalactite, and it breaks.  Useless.
+        # You're going to break the stalactite.  After that, you'll have stalactite
+        # powder in your inventory.  If you try to use stalactite powder, you'll fling
+        # some of it in anger.  If you don't have it: "You don't have any, um, of that."
         elif mcp("north"):
 
             if door_open:
@@ -743,9 +786,7 @@ def open_cavern(previous):
             break
         else:
             mcdu()
-# You're going to break the stalactite.  After that, you'll have stalactite
-# powder in your inventory.  If you try to use stalactite powder, you'll fling
-# some of it in anger.  If you don't have it: "You don't have any, um, of that."
+
 
 
 def transition_hall(previous):
@@ -854,10 +895,12 @@ inventory = [
 hobo_bedroom_rocks_moved = False
 have_stalactite = False
 have_stalagmite = False
+have_door_pudge = False
 key_gag_initiated = False
 key_gag_concluded = False
 key_identified = False
 can_see_the_door = False
+door_open = False
 
 os.system('cls')
 start()
