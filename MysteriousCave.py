@@ -91,6 +91,10 @@ def mcdu():
         print("Ha!  No.  Reality continues to elude you.\n")
     elif mcinput.lower().startswith("get "):
         print(random.choice(cant_get))
+    elif mcp("throw","pillow") and have_pillow:
+        print(
+        """\rI'd say it's more of a "sleep pillow" than a "throw pillow"."""
+        )
     elif mcp("use", "pudge") and have_door_pudge:
         print("You, uh, squish some pudge between your fingers... feels nice.")
     elif mcp("stalactite","powder") and have_stalactite_powder:
@@ -933,6 +937,9 @@ def bath_room(previous):
     \rlooks fairly luxurious, and surprisingly clean for being deep inside a
     \rcave.  There is a toilet, a shower, and a sink complete with mirror.""")
 
+    if toilet_overflowing:
+        print("The toilet is overflowing.")
+
     while True:
         mci()
 
@@ -1030,7 +1037,7 @@ def bath_room(previous):
                 """\rYou flush the toilet.  Nice!  I wonder where this leads.
                 \rHopefully not to that glowing pond outside.""")
 
-        elif mcp("west"):
+        elif mcp("west") or mcp("exit") or mcp("leave"):
             finished_room(this_room)
             break
         else:
@@ -1038,11 +1045,45 @@ def bath_room(previous):
 
 
 def bed_room(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, have_pillow
     last_room = previous
     this_room = "bed_room"
-    #finished room
-    pass
+
+    print(
+    """\rThere is a bed in this room.  It must be a bed room.  Maybe they store
+    \rbeds in here.  A cave is a strange place for keeping beds, though, if you
+    \rask me.""")
+
+    while True:
+        mci()
+
+        if mcp("look","bed"):
+            print(
+            """\rThe bed looks comfy.  It is well made with ornate red covers
+            \rand fluffy white pillows.""")
+        elif mcp("use","bed"):
+            print("Use it?  Use it for what?")
+        elif mcp("sleep","bed"):
+            print(
+            """\rYou lie down in the bed and try to sleep.  You can't quite do
+            \rit, though.  I mean, what if someone is down here.  Do you want
+            \rthem to find you sleeping in their bed?""")
+        elif mcp("sleep"):
+            print(
+            f"""\rYou sleep standing up for a few minutes.  That's a strange
+            \rtalent, and an even stranger choice, {player}.  There's a
+            \rperfectly good bed right there.""")
+        elif mcp("get","pillow") and not have_pillow:
+            have_pillow = True
+            inventory.insert(0, "A fluffy, white pillow.")
+            print(
+            """\rYou get a pillow.  Good idea!  Pillows often come in handy in
+            \rcaves.""")
+        elif mcp("south"):
+            finished_room(this_room)
+            break
+        else:
+            mcdu()
 
 
 def finished_hallway(previous):
@@ -1112,6 +1153,7 @@ hobo_bedroom_rocks_moved = False
 have_stalactite = False
 have_stalagmite = False
 have_door_pudge = False
+have_pillow = False
 key_gag_initiated = False
 key_gag_concluded = False
 key_identified = False
