@@ -854,7 +854,7 @@ def open_cavern(previous):
 
 
 def transition_hall(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, have_door_pudge
     last_room = previous
     this_room = "transition_hall"
 
@@ -871,7 +871,7 @@ def transition_hall(previous):
             print(
             """\rThere are blues and golds and whites, with patterns of plants
             \rand flowers that appear to be carefully hand-painted.""")
-        elif mcp("use","pudge","wall"):
+        elif mcp("use","pudge","wall") and have_door_pudge:
             print(
             """\rYou desecrate the gorgeous wall paintings with door pudge.""")
         elif mcp("south"):
@@ -885,7 +885,7 @@ def transition_hall(previous):
 
 
 def finished_room(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, have_door_pudge
     last_room = previous
     this_room = "finished_room"
 
@@ -903,6 +903,9 @@ def finished_room(previous):
             \rexcept every inch of it continues to be unique.  There are blues
             \rand golds and whites, with patterns of plants and flowers that
             \rappear to be carefully hand-painted.""")
+        elif mcp("use","pudge","wall") and have_door_pudge:
+            print(
+            """\rYou desecrate the gorgeous wall paintings with door pudge.""")
         elif mcp("east"):
             bath_room(this_room)
             break
@@ -920,7 +923,8 @@ def finished_room(previous):
 
 
 def bath_room(previous):
-    global last_room, this_room, player, have_stalactite
+    global last_room, this_room, player, have_stalactite, have_door_pudge
+    global pudge_in_toilet, toilet_overflowing
     last_room = previous
     this_room = "bath_room"
 
@@ -929,18 +933,6 @@ def bath_room(previous):
     \rlooks fairly luxurious, and surprisingly clean for being deep inside a
     \rcave.  There is a toilet, a shower, and a sink complete with mirror.""")
 
-    #toilet
-    # USE TOILET
-    # Ahhhhhhhhhhh.  Good thing this was here!
-    # FLUSH TOILET
-    # It flushes.  I wonder where this leads.  Hopefully not to the glowing pool.
-    #shower
-    # put stuff you have in the toilet
-    # pudge clogs the toilet??
-    # toilet overflows
-    # oh, no...
-    # USE SHOWER
-    # You turn on the shower.  The water is glowing.  Maybe its not a good idea to use this shower.
     while True:
         mci()
 
@@ -949,10 +941,17 @@ def bath_room(previous):
             """\rThe walls in here are metallic, but there are more floral patterns
             \rcarefully etched into them.  The details intensify on the walls within
             \rreach of the toilet.  Someone spent a lot of time in here.""")
+        elif mcp("use","pudge","wall") and have_door_pudge:
+            print(
+            """\rYou rub some door pudge into the etched wall carvings.  Hey,
+            \rthat actually adds an interesting effect.""")
         elif mcp("look","mirror"):
             print(
             """\rYou recoil in horror!  Just kidding.  Hey, is that a medicine
             \rcabinet?""")
+        elif mcp("use","pudge","mirror"):
+            print(
+            """\rYou cover the mirror in door pudge.  Much better.""")
         elif mcp("stalagmite","mirror"):
             print("Don't break it!  It isn't yours.")
         elif mcp("stalactite","mirror") and have_stalactite:
@@ -987,6 +986,50 @@ def bath_room(previous):
             print(
             """\rMmmmmm, no.  That's not gonna work here.  You stay out of the
             shower.""")
+        elif mcp("look","toilet"):
+            print(
+            """\rThis bowl is literally porcelain.  It is decorated with floral
+            \rpatterns like the rest of this place, although these are brown.
+            \rHmmm.""")
+
+            if toilet_overflowing:
+                print("Also, the toilet is overflowing.  Nice job.")
+
+        elif mcp("pudge","toilet") and have_door_pudge:
+            have_door_pudge = False
+            print(
+            """\rYou toss the rest of your trusty DOOR PUDGE into the can, where
+            \rit belongs!""")
+
+            if toilet_overflowing:
+                print(
+                """\rEven more water sloshes out of the princely porcelain
+                \rpotty.  I can't believe you went back to get more of this
+                \rstuff.  Don't think that I programmed the rest of this game
+                \rto make use of DOOR PUDGE.  I didn't.  Because its ridiculous.
+                """)
+
+        elif mcp("put","in","toilet"):
+            print("Huh.  It goes right in there.  Interesting.")
+        elif mcp("use","toilet"):
+            print(
+            """\rAhhhhhhhhhhh.  Good thing this was here!""")
+        elif mcp("flush","toilet"):
+
+            if toilet_overflowing:
+                print(
+                f"""\rNow the overflowing toilet is even MORE overflowing.
+                \rTerrific work, {player}!""")
+            elif pudge_in_toilet:
+                toilet_overflowing = True
+                print(
+                """\rYou flush the toilet.  Uh oh.  Its filling up!  Oh no..."""
+                )
+            else:
+                print(
+                """\rYou flush the toilet.  Nice!  I wonder where this leads.
+                \rHopefully not to that glowing pond outside.""")
+
         elif mcp("west"):
             finished_room(this_room)
             break
@@ -1074,6 +1117,8 @@ key_gag_concluded = False
 key_identified = False
 can_see_the_door = False
 door_open = False
+pudge_in_toilet = False
+toilet_overflowing = False
 
 os.system('cls')
 start()
