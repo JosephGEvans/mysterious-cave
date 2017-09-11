@@ -820,7 +820,7 @@ def open_cavern(previous):
             else:
                 print("To open a door, one must have located a door to open.")
 
-        elif mcp("get","door","pudge"):
+        elif mcp("get","pudge"):
 
             if door_open and have_door_pudge:
                 print(
@@ -920,22 +920,64 @@ def finished_room(previous):
 
 
 def bath_room(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, have_stalactite
     last_room = previous
     this_room = "bath_room"
+
+    print(
+    """\rOh, how lovely!  A bathroom.  Not just any bathroom, either.  This one
+    \rlooks fairly luxurious, and surprisingly clean for being deep inside a
+    \rcave.  There is a toilet, a shower, and a sink complete with mirror.""")
+
     #toilet
     # USE TOILET
     # Ahhhhhhhhhhh.  Good thing this was here!
     # FLUSH TOILET
     # It flushes.  I wonder where this leads.  Hopefully not to the glowing pool.
     #shower
+    # put stuff you have in the toilet
+    # pudge clogs the toilet??
+    # toilet overflows
+    # oh, no...
     # USE SHOWER
     # You turn on the shower.  The water is glowing.  Maybe its not a good idea to use this shower.
-    #med cabinet
-    # TAKE MEDICINE
-    # You take some medicine.  NO!  SPIT IT OUT!!
-    #finished room
-    pass
+    while True:
+        mci()
+        
+        if mcp("look","wall"):
+            print(
+            """\rThe walls in here are metallic, but there are more floral patterns
+            \rcarefully etched into them.  The details intensify on the walls within
+            \rreach of the toilet.  Someone spent a lot of time in here.""")
+        elif mcp("look","mirror"):
+            print(
+            """\rYou recoil in horror!  Just kidding.  Hey, is that a medicine
+            \rcabinet?""")
+        elif mcp("stalagmite","mirror"):
+            print("Don't break it!  It isn't yours.")
+        elif mcp("stalactite","mirror") and have_stalactite:
+            print("It would probably break the stalactite.  Those are fragile.")
+        elif mcp("use","mirror"):
+            print("You use the mirror.")
+        elif mcp("look","cabinet"):
+            print("It's a medicine cabinet.  Why don't you OPEN it?")
+        elif mcp("use","cabinet") or mcp("open","cabinet"):
+            print(
+            """\rOpening the medicine cabinet, you see a few bottles of medicine.
+            \rThey look pretty old.  All the labels are faded so you can't tell what
+            \rthey contain.""")
+        elif mcp("take","medicine"):
+            print("You take some medicine.  NO!  SPIT IT OUT!!")
+        elif mcp("get","medicine"):
+            print(
+            """\rWe shouldn't be getting any cave medicine that is so old the
+            \rexpiration dates have fadded off the labels.  I won't allow you to get
+            \rit.  I could probably be prosecuted for negligance, or something.""")
+        elif mcp("west"):
+            finished_room(this_room)
+            break
+        else:
+            mcdu()
 
 
 def bed_room(previous):
