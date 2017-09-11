@@ -943,7 +943,7 @@ def bath_room(previous):
     # You turn on the shower.  The water is glowing.  Maybe its not a good idea to use this shower.
     while True:
         mci()
-        
+
         if mcp("look","wall"):
             print(
             """\rThe walls in here are metallic, but there are more floral patterns
@@ -973,6 +973,20 @@ def bath_room(previous):
             """\rWe shouldn't be getting any cave medicine that is so old the
             \rexpiration dates have fadded off the labels.  I won't allow you to get
             \rit.  I could probably be prosecuted for negligance, or something.""")
+        elif mcp("look","shower"):
+            print(
+            """\rWhile the rest of the bathroom is covered in in an etched
+            \rmetalic surface, this shower looks to be carved directly from the
+            \rstone.  It is smooth and polished.  There is a brass frame with
+            \ra translucent glass door.  Or is it some kind of quartz?""")
+        elif mcp("turn","on","shower") or mcp("use","shower"):
+            print(
+            """\rYou turn on the shower.  The water is glowing.  Maybe its not
+            \ra good idea to use this shower.""")
+        elif mcp("get","in","shower"):
+            print(
+            """\rMmmmmm, no.  That's not gonna work here.  You stay out of the
+            shower.""")
         elif mcp("west"):
             finished_room(this_room)
             break
