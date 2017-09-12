@@ -795,6 +795,7 @@ def open_cavern(previous):
                 print(f"Sorry, {player}:  missed your chance on that one.")
             elif can_see_the_door and have_stalactite:
                 have_stalactite = False
+                remove_from_inventory("stalactite")
                 have_stalactite_powder = True
                 inventory.insert(0, "Stalactite powder")
                 print(
@@ -1003,7 +1004,9 @@ def bath_room(previous):
                 print("Also, the toilet is overflowing.  Nice job.")
 
         elif mcp("pudge","toilet") and have_door_pudge:
+            pudge_in_toilet = True
             have_door_pudge = False
+            remove_from_inventory("pudge")
             print(
             """\rYou toss the rest of your trusty DOOR PUDGE into the can, where
             \rit belongs!""")
@@ -1177,11 +1180,18 @@ def finished_path(previous):
     last_room = previous
     this_room = "finished_path"
     #leads back to cube room
+    #mostly finished, a "work in progress"
     pass
 
 
 def end():
     exit(0)
+
+
+def remove_from_inventory(uniqueWord):
+    global inventory
+    inventory = [x for x in inventory if uniqueWord not in x]
+
 
 
 this_room = ""
