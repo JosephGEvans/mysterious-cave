@@ -1104,8 +1104,8 @@ def finished_hallway(previous):
 
         if mcp("pudge","wall"):
             print(
-            """\rYou still have that?  No!  These walls are too nice!  Go
-            \rvandalize a train car, or something.""")
+            """\rYou still have that?  No!  This hall is too nice!  Go vandalize
+            \ra train car, or something.""")
         elif mcp("look","ceiling"):
             print("The sun shines through billowing, gold-tinted clouds.")
         elif mcp("look","north"):
