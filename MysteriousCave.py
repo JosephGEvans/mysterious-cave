@@ -1090,10 +1090,46 @@ def finished_hallway(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "finished_hallway"
-    #kitchen
-    #study
-    #finished_room
-    pass
+
+    print(
+    """\rThis hallway has high ceilings painted with bright blue sky and clouds.
+    \rThe walls are painted on the north side with a beach and ocean view.  The
+    \rsouth wall is painted like a lush forrest.  In the center of the forrest
+    \rpainting is an opening to a SOUTH stairwell.  There are doorways at the
+    \rEAST and WEST ends of the hall.
+    """)
+
+    while True:
+        mci()
+
+        if mcp("pudge","wall"):
+            print(
+            """\rYou still have that?  No!  These walls are too nice!  Go
+            \rvandalize a train car, or something.""")
+        elif mcp("look","ceiling"):
+            print("The sun shines through billowing, gold-tinted clouds.")
+        elif mcp("look","north"):
+            print("The ocean is clear and bright blue.  The dunes are white.")
+        elif mcp("look","south"):
+            print(
+            f"""\rThe jungle is filled with colorful flowers, and there are not
+            \ra few cutesy animals peeking out from bushes to get a glimpse at
+            \ryou, {player}.  Wink.  I'm winking at you, {player}.""")
+        elif mcp("look","wall"):
+            print(
+            """\rThere are so very many walls, though!  Which of the two walls
+            \rdo you mean?""")
+        elif mcp("north"):
+            kitchen(this_room)
+            break
+        elif mcp("east"):
+            finished_room(this_room)
+            break
+        elif mcp("west"):
+            study(this_room)
+            break
+        else:
+            mcdu()
 
 
 def kitchen(previous):
@@ -1129,6 +1165,10 @@ def secret_room(previous):
     this_room = "secret_room"
     #confrontation?
     #exit to finished path
+
+    #LOOK MAN
+    #You look at the man.  He looks at you.  He doesn't look happy.  Actually,
+    #you don't look too happy either.  You alright there, {player}?
     pass
 
 
