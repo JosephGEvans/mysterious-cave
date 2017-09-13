@@ -1139,9 +1139,63 @@ def kitchen(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "kitchen"
-    #back_porch
-    #hallway
-    pass
+
+    print(
+    """\rYou see a stove, a few cupboards, some counters, and some drawers.
+    \rA kitchen?  Of course there's a kitchen!  Why not have a kitchen in your
+    \rsecret cave house?""")
+
+    while True:
+        mci()
+
+        if mcp("look","cupboard"):
+            print(
+            """\rYou rummage through the cuppboards.  There are various food
+            \rsupplies.  You notice a large quantity of generic cans of "Beans."
+            \rHow interesting...  Well, if you get hungry, there's food!""")
+        elif mcp("eat"):
+            print(f"You're not hungry, {player}.  Trust me, I know.")
+        elif mcp("get","beans"):
+            print(
+            """\rWell, that's peculiar.  They seem to be firmly attached to the
+            \rshelf in the cupboard!  It's almost as if someone here didn't want
+            \ryou to GET BEANS.""")
+        elif mcp("pudge","powder","counter"):
+            print("That is just the weirdest-- what do you hope to even make?")
+        elif mcp("look","counter"):
+            print(
+            """\rYep.  There're counters.  Guess what they're made of!  Well?
+            \rGive up?  Alright, I'll tell you.  They're made of counters.""")
+        elif mcp("look","drawer"):
+            print(
+            """\rYou rummage through the drawers.  You're so forward.  Anyway,
+            \ryou don't find anything other than the kinds of mundane things
+            \rpeople let accumulate in drawers.""")
+        elif mcp("get","mundane") and not have_junk:
+            have_junk = True
+            inventory.insert(0, "Some utterly commonplace drawer junk")
+            print(f"You get some stodgy old stuff.  Why, {player}?")
+        elif mcp("get","mundane") and have_junk:
+            print("Really?  No.")
+        elif mcp("look","stove"):
+            print(
+            """\rNow this is interesting.  This looks like a gas-powered stove.
+            \rWhere's the gas come from?  From the cave somehow?""")
+        elif mcp("turn","on","stove") or mcp("use","stove"):
+            print(
+            """\rYou turn on the stove.  Definitely gas.  That's neat!  Now you
+            \rturn the stove back off, because you're so safety-conscious.
+            \rWouldn't want to burn the cave down.""")
+        elif mcp("turn","off","stove"):
+            print("It's off.")
+        elif mcp("south"):
+            back_porch(this_room)
+            break
+        elif mcp("north"):
+            finished_hallway(this_room)
+            break
+        else:
+            mcdu()
 
 
 def back_porch(previous):
@@ -1204,6 +1258,7 @@ have_stalactite = False
 have_stalagmite = False
 have_door_pudge = False
 have_pillow = False
+have_junk = False
 key_gag_initiated = False
 key_gag_concluded = False
 key_identified = False
