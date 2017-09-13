@@ -911,13 +911,13 @@ def finished_room(previous):
         elif mcp("use","pudge","wall") and have_door_pudge:
             print(
             """\rYou desecrate the gorgeous wall paintings with door pudge.""")
-        elif mcp("east"):
+        elif mcp("west"):
             bath_room(this_room)
             break
         elif mcp("north"):
             bed_room(this_room)
             break
-        elif mcp("west"):
+        elif mcp("east"):
             finished_hallway(this_room)
             break
         elif mcp("south"):
@@ -1040,7 +1040,7 @@ def bath_room(previous):
                 """\rYou flush the toilet.  Nice!  I wonder where this leads.
                 \rHopefully not to that glowing pond outside.""")
 
-        elif mcp("west") or mcp("exit") or mcp("leave"):
+        elif mcp("east") or mcp("exit") or mcp("leave"):
             finished_room(this_room)
             break
         else:
@@ -1122,13 +1122,13 @@ def finished_hallway(previous):
             print(
             """\rThere are so very many walls, though!  Which of the two walls
             \rdo you mean?""")
-        elif mcp("north"):
+        elif mcp("south"):
             kitchen(this_room)
             break
-        elif mcp("east"):
+        elif mcp("west"):
             finished_room(this_room)
             break
-        elif mcp("west"):
+        elif mcp("east"):
             study(this_room)
             break
         else:
