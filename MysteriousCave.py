@@ -1202,8 +1202,31 @@ def back_porch(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "back_porch"
-    # overlook pool in open cavern
-    pass
+
+    print(
+    """\rThis is an open air balcony carved into the stone, atop the house.  You
+    \rare just outside the kitchen.  You can see the glowing pool below you, but
+    \ranyone down there would not notice this space up here.  The cavern looks
+    \rbigger from up here...
+    \rThe kitchen is back NORTH.""")
+
+    while True:
+        mci()
+
+        if mcp("get","air"):
+            print("You get some air.  Stale, cave air.  It's still nice.")
+        elif mcp("take","in"):
+            print("You take it all in.  Ahhhh.")
+        elif mcp("look","pool"):
+            print(
+            """\rIt looks like it stretches farther away than you thought.  That
+            \rmight be a glowing river connecting too it, but it is pretty far
+            \raway, off to your left.""")
+        elif mcp("north"):
+            kitchen(this_room)
+            break
+        else:
+            mcdu()
 
 
 def study(previous):
