@@ -1288,7 +1288,7 @@ def study(previous):
             """\rScanning through the books, you notice a lot of classics.
             "Don Quixote"
             "War and Peace"
-            "The Complete Works of Shakespeare"
+            "The Complete Works of William Shakespeare"
             "The Prince"
             ...just to name a few.  One book especially grabs your attention:
             "The Odyssey".
