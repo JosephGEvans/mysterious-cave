@@ -1233,10 +1233,33 @@ def study(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "study"
-    #library
-    #desk
-    #secret entrance
-    pass
+
+    print(
+    """\rThis room looks like a nice home office study combined with a library.
+    \rThere are several floor-to-ceiling bookshelves.  There is a large desk
+    \rwhich appears to be made of polished stone.""")
+
+    while True:
+        mci()
+
+        if mcp("look","desk"):
+            print(
+            """\rA desk.
+            """)
+        elif mcp("look","bookshelf") or mcp("look","bookshelves"):
+            print(
+            """\rThey have books.
+            """)
+        elif mcp("look","shelf") or mcp("look","shelves"):
+            print(
+            """\rYou'll have to be more specific.  Shelf is such a generic word.
+            \rBookshelf, on the other hand... now that's a specific word, right
+            \rthere.""")
+        elif mcp("west"):
+            finished_hallway(this_room)
+            break
+        else:
+            mcdu()
 
 
 def secret_room(previous):
