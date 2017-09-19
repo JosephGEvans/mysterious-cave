@@ -1246,8 +1246,28 @@ def study(previous):
 
         if mcp("look","desk"):
             print(
-            """\rA desk.
+            """\rThis desk appears to be carved from the cave, like so much else
+            \rin this house.  Every inch of it is painstakingly crafted, and
+            \rtiny, detailed patterns are everywhere.  The desk surface is so
+            \rsmoothly polished that you can see your reflection.  It is
+            \rbreathtaking.  I mean the desk, not your face.
             """)
+        elif mcp("use","desk"):
+            print(
+            f"""\r"USE the DESK."  Okay, hmm.  Yeah, I can work with that.  You
+            \rSit down at the big, stone desk, and try to look important.  Do
+            \ryou feel useful at this desk?  I've gotta tell you, {player}, you
+            \rcertainly do look very useful.  Excellent work at the desk, there.
+            """)
+        elif mcp("get","desk"):
+            print(
+            f"""\rYou pick up the enormous, stone desk of unfathomable weight
+            \rwhich may have been carved directly from the cave itself, and
+            \rplace it in your INVENTORY.
+
+            \rHow does that sound?  Is that what you expected to happen when you
+            \rtyped GET DESK?  Why don't we take a minute to think through our
+            \ractions next time, {player}.""")
         elif mcp("look","bookshelf") or mcp("look","bookshelves"):
             print(
             """\rThese bookshelves are also carved into the stone walls.  They
@@ -1292,7 +1312,7 @@ def study(previous):
                 \rthe shelf.  Instead, the whole bookshelf feels like it comes
                 \rloose from the wall!  It swings on a hinge and opens like a
                 \rdoor.  This new doorway leads SOUTH into a secret room.""")
-                
+
         elif mcp("get","book"):
             print("You grab a book, take a look, then put it back in its nook.")
         elif mcp("read"):
