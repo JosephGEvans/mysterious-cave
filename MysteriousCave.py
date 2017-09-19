@@ -1230,14 +1230,16 @@ def back_porch(previous):
 
 
 def study(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, secret_revealed
     last_room = previous
     this_room = "study"
 
     print(
     """\rThis room looks like a nice home office study combined with a library.
     \rThere are several floor-to-ceiling bookshelves.  There is a large desk
-    \rwhich appears to be made of polished stone.""")
+    \rwhich appears to be made of polished stone.  To the WEST lies a hall.""")
+    if secret_revealed:
+        print("There is also a secret door leading SOUTH.")
 
     while True:
         mci()
@@ -1248,15 +1250,60 @@ def study(previous):
             """)
         elif mcp("look","bookshelf") or mcp("look","bookshelves"):
             print(
-            """\rThey have books.
-            """)
+            """\rThese bookshelves are also carved into the stone walls.  They
+            \rare very smooth.  They are filled to the brim with old books.""")
+
+            if secret_revealed:
+                print(
+                """\rOne bookshelf has opened to reveal a doorway leading SOUTH.
+                """)
+
         elif mcp("look","shelf") or mcp("look","shelves"):
             print(
             """\rYou'll have to be more specific.  Shelf is such a generic word.
             \rBookshelf, on the other hand... now that's a specific word, right
             \rthere.""")
+        elif mcp("look","book") or mcp("look","books"):
+            print(
+            """\rScanning through the books, you notice a lot of classics.
+            "Don Quixote"
+            "War and Peace"
+            "The Complete Works of Shakespeare"
+            "The Prince"
+            ...just to name a few.  One book especially grabs your attention:
+            "The Odyssey".
+            """)
+        elif mcp("look","Odyssey"):
+            print(
+            """\r"The Odyssey" stands out from the other books.  You can't quite
+            \rput your finger on why... either the color, or the size, or the
+            \rplacement are just... you don't know.  It doesn't fit in.""")
+
+            if secret_revealed:
+                print("Maybe because its a secret lever for a secret door.")
+
+        elif mcp("get","odyssey") or mcp("use","odyssey"):
+
+            if secret_revealed:
+                print("You can't get it.  Its like a lever, or something.")
+            else:
+                print(
+                """\rYou grab "The Odyssey", but you can't fully remove it from
+                \rthe shelf.  Instead, the whole bookshelf feels like it comes
+                \rloose from the wall!  It swings on a hinge and opens like a
+                \rdoor.  This new doorway leads SOUTH into a secret room.""")
+                
+        elif mcp("get","book"):
+            print("You grab a book, take a look, then put it back in its nook.")
+        elif mcp("read"):
+            print(
+            """\rYou can't read.  Uh, in here.  Yeah!  It's too dark.  Yeah,
+            \ryou know... cave reasons.""")
         elif mcp("west"):
             finished_hallway(this_room)
+            break
+        elif mcp("south"):
+            secret_room(this_room)
             break
         else:
             mcdu()
@@ -1312,6 +1359,7 @@ can_see_the_door = False
 door_open = False
 pudge_in_toilet = False
 toilet_overflowing = False
+secret_revealed = False
 
 os.system('cls')
 start()
