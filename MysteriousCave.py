@@ -1331,15 +1331,49 @@ def study(previous):
 
 def secret_room(previous):
     global last_room, this_room, player
+    global man_in_secret_room, secret_room_door_open
     last_room = previous
     this_room = "secret_room"
-    #confrontation?
-    #exit to finished path
 
-    #LOOK MAN
-    #You look at the man.  He looks at you.  He doesn't look happy.  Actually,
-    #you don't look too happy either.  You alright there, {player}?
-    pass
+    print(
+    """\rYou're in a secret room.  To the NORTH is the open bookcase doorway."""
+    )
+
+    if secret_room_door_open:
+        print("There is another open door leading SOUTH.")
+    else:
+        print("To the SOUTH is another door, which is closed.")
+
+    if man_in_secret_room:
+        print("There is a man here.  He's standing in front of the door.")
+
+    while man_in_secret_room:
+        mci()
+
+        if mcp("look","man"):
+            print(
+            f"""\rYou look at the man.  He looks at you.  He doesn't look happy.
+            \rActually, you don't look too happy either.
+            \rYou alright there, {player}?""")
+        elif mcp("talk","man"):
+            print(
+            """\rYou talk to the man.  He doesn't talk to you.  Weird.""")
+        elif mcp("say"):
+            print("You say some stuff.  He doesn't seem to care.  Rude.")
+        else:
+            mcdu()
+
+    while True:
+        mci()
+
+        if mcp("look","man"):
+            print("No YOU look, man!  Don't see any MAN here, MAN.")
+        elif mcp("south") and secret_room_door_open:
+            finished_path(this_room)
+            break
+        else:
+            mcdu()
+
 
 
 def finished_path(previous):
@@ -1380,6 +1414,8 @@ door_open = False
 pudge_in_toilet = False
 toilet_overflowing = False
 secret_revealed = False
+secret_room_door_open = False
+man_in_secret_room = False
 
 os.system('cls')
 start()
