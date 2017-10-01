@@ -1373,8 +1373,9 @@ def secret_room(previous):
             print(
             """\rYou extend your only stalactite to the man.  He accepts your
             \rkind gesture, and takes the stalactite.""")
-            story(this_room)
+            story(this_room, "stalactite")
             break
+
         else:
             mcdu()
 
@@ -1392,11 +1393,17 @@ def secret_room(previous):
             mcdu()
 
 
-def story(previous):
+def story(previous, reason):
     global last_room, this_room, player
     last_room = previous
     this_room = "story"
     #The man tells a story, possibly an interactive story...
+    #The reason variable is the cause of the man launching into the story.  He
+    #should mention the reason while beginning.
+    #If you're rude to the man, he will leave through the exit door and lock it
+    #behind him.  You'll never find out what's in there.
+    #If you're polite, he'll invite you to visit whenever you please, and open
+    #the door for you to find the secret exit.
     pass
 
 
