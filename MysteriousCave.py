@@ -1360,6 +1360,21 @@ def secret_room(previous):
             """\rYou talk to the man.  He doesn't talk to you.  Weird.""")
         elif mcp("say"):
             print("You say some stuff.  He doesn't seem to care.  Rude.")
+        elif mcp("SOUTH"):
+            print(
+            "You can't get to the door.  The man is blocking it.  Annoying.")
+        elif mcp("stalactite","powder","man") and have_stalactite_powder:
+            print(
+            f"""\rYou fling some stalactite powder at the man.  He coughs.  Now
+            \ryou're being rude, {player}.""")
+        elif mcp("stalactite","man") and have_stalactite:
+            have_stalactite = False
+            remove_from_inventory("brittle")
+            print(
+            """\rYou extend your only stalactite to the man.  He accepts your
+            \rkind gesture, and takes the stalactite.""")
+            story(this_room)
+            break
         else:
             mcdu()
 
@@ -1368,12 +1383,21 @@ def secret_room(previous):
 
         if mcp("look","man"):
             print("No YOU look, man!  Don't see any MAN here, MAN.")
+        elif mcp("man"):
+            print("The man is gone now.  You can't interact with a gone man.")
         elif mcp("south") and secret_room_door_open:
             finished_path(this_room)
             break
         else:
             mcdu()
 
+
+def story(previous):
+    global last_room, this_room, player
+    last_room = previous
+    this_room = "story"
+    #The man tells a story, possibly an interactive story...
+    pass
 
 
 def finished_path(previous):
@@ -1402,6 +1426,7 @@ inventory = [
     ]
 hobo_bedroom_rocks_moved = False
 have_stalactite = False
+have_stalactite_powder = False
 have_stalagmite = False
 have_door_pudge = False
 have_pillow = False
@@ -1415,7 +1440,7 @@ pudge_in_toilet = False
 toilet_overflowing = False
 secret_revealed = False
 secret_room_door_open = False
-man_in_secret_room = False
+man_in_secret_room = True
 
 os.system('cls')
 start()
