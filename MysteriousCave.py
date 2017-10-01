@@ -1345,7 +1345,7 @@ def study(previous):
 
 def secret_room(previous):
     global last_room, this_room, player
-    global man_in_secret_room, secret_room_door_open
+    global man_in_secret_room, secret_room_door_open, secret_room_door_locked
     global have_stalactite, have_stalactite_powder, have_stalagmite
     global have_door_pudge, have_pillow, have_junk
     last_room = previous
@@ -1362,6 +1362,10 @@ def secret_room(previous):
 
     if man_in_secret_room:
         print("There is a man here.  He's standing in front of the door.")
+    else:
+        print(
+        "There really isn't anything interesting in here now that the man left."
+        )
 
     while man_in_secret_room:
         mci()
@@ -1376,9 +1380,6 @@ def secret_room(previous):
             """\rYou talk to the man.  He doesn't talk to you.  Weird.""")
         elif mcp("say"):
             print("You say some stuff.  He doesn't seem to care.  Rude.")
-        elif mcp("SOUTH"):
-            print(
-            "You can't get to the door.  The man is blocking it.  Annoying.")
         elif mcp("stalactite","powder","man") and have_stalactite_powder:
             print(
             f"""\rYou fling some stalactite powder at the man.  He coughs.  Now
@@ -1401,16 +1402,32 @@ def secret_room(previous):
             """\rYou reach into your endless pouch-pocket-hole-place-thing and
             \rpull out a stlagmite.  The man's eyes widen, and he looks excited.
             \rHe takes the stalagmite from you.""")
-            have-stalagmite = False
+            have_stalagmite = False
             remove_from_inventory("stalagmite")
             story(this_room, "stalagmite")
             break
-    elif mcp("pillow") and have_pillow:
-        print(
-        """\rYou pull out the pillow, and the man snatches it from you.
-        \r\t"Hey!  That's my pillow!" he exclaims.  The man is not pleased with
-        \ryou.  He says, "I am not pleased with you."
-        """)
+        elif mcp("pillow") and have_pillow:
+            print(
+            """\rYou pull out the pillow, and the man snatches it away from you.
+            \r\t"Hey!  That's my pillow!" he exclaims.  The man is not pleased with
+            \ryou.  He says, "I am not pleased with you."
+            """)
+            have_pillow = False
+        elif mcp("junk","man") and have_junk:
+            print(
+            """\rYou pull out some of that junk you found in a drawer.  The man
+            \rcries out, "I've been looking everywhere for that!  Thank you!"
+            \rHe takes the, uh, "valuable" things.""")
+            have_junk = False
+            remove_from_inventory("junk")
+            story(this_room, "junk")
+            break
+        elif mcp("SOUTH"):
+            print(
+            "You can't get to the door.  The man is blocking it.  Annoying.")
+        elif mcp("north"):
+            study(this_room)
+            break
         else:
             mcdu()
 
@@ -1423,6 +1440,9 @@ def secret_room(previous):
             print("The man is gone now.  You can't interact with a gone man.")
         elif mcp("south") and secret_room_door_open:
             finished_path(this_room)
+            break
+        elif mcp("north"):
+            study(this_room)
             break
         else:
             mcdu()
@@ -1483,6 +1503,7 @@ toilet_overflowing = False
 secret_revealed = False
 secret_room_door_open = False
 man_in_secret_room = True
+secret_room_door_locked = False
 
 os.system('cls')
 start()
