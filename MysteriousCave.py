@@ -1468,7 +1468,7 @@ def secret_room(previous):
             print(
             f"""\r"{player}, that's not going to work here.  In fact, you know
             \rwhat?  Give me that!"
-            \rThe cave, uh, narrator takes away your stalagmite.
+            \rThe cave, uh, narrator(?) takes away your stalagmite.
             \rWell, this is awkward...""")
             have_stalagmite = False
             remove_from_inventory("stalagmite")
@@ -1486,8 +1486,55 @@ def secret_room(previous):
 
 def story(previous, reason):
     global last_room, this_room, player
+    global secret_room_door_locked, secret_room_door_open
     last_room = previous
     this_room = "story"
+
+    if reason == "junk":
+        print(
+        """\r\t"Really, truely, thank you!  I'm going to put this in a drawer in
+        \rmy kitchen to make sure it doesn't get lost again." """)
+    elif reason == "stalagmite":
+        print(
+        """\r\t"I've been looking everywhere for one of these.  Where did you
+        \rfind it?" """)
+        mci()
+    elif reason == "stalactite":
+        print(
+        """\r\t"Well, isn't this... nice?  I've never seen one like it."
+        \rYou detect sarcasm.
+        \r\t"Did you find it in this cave, or bring it from another one?"  The
+        \rman is trying hard to be polite.""")
+        mci()
+    else:
+        print("An impossible situation has occurred!")
+
+    print(
+    """\r\t"Ah, yes, great.
+    \r\t"I'd love to tell you all about myself and how I came to live in and
+    \rcreate this cave house.  Would you like to hear it?""")
+
+    while True:
+        mci()
+
+        if mcp("yes") or mcp("continue"):
+            print("""\r\t"Fantastic!" """)
+        elif mcp("no"):
+            print(
+            f"""\r\t"Oh?  No?  Oh.  I see.  Well, I'll just get out of your way,
+            \rthen.  Feel free to find your way back out of my cave."
+            \rThe man walks past you into the study to the NORTH.  You probably
+            \rwon't be seeing him again.  I think you really hurt his feelings,
+            \r{player}.
+            """)
+            secret_room_door_locked = True
+            secret_room("study")
+            break
+        else:
+            print(
+            """\r"I'm afraid I don't understand.  Shall I continue or not?" """)
+
+
     #The man tells a story, possibly an interactive story...
     #The reason variable is the cause of the man launching into the story.  He
     #should mention the reason while beginning.
