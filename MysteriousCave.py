@@ -331,8 +331,9 @@ def hobo_cache(previous):
 def perfect_cube_room(previous):
     #secret entrance to finished path
     #cant find secret entrance unless exited through it once (no seams in room)
-    global last_room, this_room, player, key_gag_initiated, key_gag_concluded
-    global key_identified
+    global last_room, this_room, player
+    global key_identified, key_gag_initiated, key_gag_concluded
+    global cube_room_secret_door_visible
     last_room = previous
     this_room = "perfect_cube_room"
 
@@ -1510,7 +1511,7 @@ def story(previous, reason):
         print("An impossible situation has occurred!")
 
     print(
-    """\r\t"Ah, yes, anyway.
+    """\r\t"Ah.  Yes.  Anyway.
     \r\t"I'd love to tell you all about myself and how I came to live in and
     \rcreate this cave house.  Would you like to hear all about it?""")
 
@@ -1528,6 +1529,7 @@ def story(previous, reason):
             \rwon't be seeing him again.  I think you really hurt his feelings,
             \r{player}.
             """)
+            man_in_secret_room = False
             secret_room_door_locked = True
             secret_room("study")
             break
@@ -1576,6 +1578,7 @@ def story(previous, reason):
             \rThe man goes NORTH into the study.  You never exchanged names, so
             \rI would hardly call that a "meeting", but who am I to say?
             """)
+            man_in_secret_room = False
             secret_room_door_open = True
             secret_room("study")
             break
@@ -1588,6 +1591,7 @@ def story(previous, reason):
             \rdoesn't, you know... hurt himself, {player}.  I agree with you,
             \rthough, {player}.  It was kind of an abrupt ending.
             """)
+            man_in_secret_room = False
             secret_room_door_locked = True
             secret_room("study")
             break
@@ -1600,9 +1604,18 @@ def finished_path(previous):
     global last_room, this_room, player
     last_room = previous
     this_room = "finished_path"
-    #leads back to cube room
-    #mostly finished, a "work in progress"
-    pass
+
+    print(
+    """\rThe walls, floor, and ceiling here are all smooth and cut.  After
+    \rYou walk for a while, the carved walls give way to raw cave surfaces.  It
+    \ris a little cramped for a bit, but then you find more smoothly cut walls,
+    \rfloor, and ceiling at the other end."""
+
+    if last_room == "secret_room":
+        print(
+        """\rThere are carved, stone steps leading up to some kind of stone
+        \rhatch with a handle.  You could go UP and push on that hatch.""")
+
 
 
 def end():
@@ -1638,6 +1651,7 @@ secret_revealed = False
 secret_room_door_open = False
 man_in_secret_room = True
 secret_room_door_locked = False
+cube_room_secret_door_visible = False
 
 os.system('cls')
 start()
