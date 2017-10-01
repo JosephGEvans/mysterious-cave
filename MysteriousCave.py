@@ -4,6 +4,19 @@ import random
 import string
 
 
+def quit():
+    if mcinput.lower().startswith("quit"):
+        print("You quit.  Program over.  Ended.  It's done.  Exit.  Out.  Fin.")
+        end()
+    elif mcinput.lower() == "q":
+        print(
+        f"""\rOoooh, nice!  The 'Q' quit.  You've used computers before, I can
+        \rsee.  Sorry you have to go, {player}.  Come back sometime?""")
+        end()
+    else:
+        return
+
+
 # fixes a bug where you would travel in the direction that you looked
 def catch_look(direction):
     if mcp("look", direction):
@@ -28,6 +41,7 @@ def mci():
     catch_look("west")
     catch_look("up")
     catch_look("down")
+    quit()
 
 
 def mcp(*certainWords):
@@ -168,7 +182,7 @@ def start():
     player = input("> ")
     os.system('cls')
     print(
-    f"""\rWell, hello there, {player}. Tell me, how does this story sound?
+    f"""\rWell, hello there, {player}. Here's a story I made about you.
 
     {player} is looking at a mysterious cave...
     A snake is slithering towards {player}.  Oh!
@@ -1174,7 +1188,7 @@ def kitchen(previous):
         elif mcp("get","mundane") and not have_junk:
             have_junk = True
             inventory.insert(0, "Some utterly commonplace drawer junk")
-            print(f"You get some stodgy old stuff.  Why, {player}?")
+            print(f"You get some stodgy old stuff 'n junk.  Why, {player}?")
         elif mcp("get","mundane") and have_junk:
             print("Really?  No.")
         elif mcp("look","stove"):
@@ -1332,6 +1346,8 @@ def study(previous):
 def secret_room(previous):
     global last_room, this_room, player
     global man_in_secret_room, secret_room_door_open
+    global have_stalactite, have_stalactite_powder, have_stalagmite
+    global have_door_pudge, have_pillow, have_junk
     last_room = previous
     this_room = "secret_room"
 
@@ -1368,14 +1384,33 @@ def secret_room(previous):
             f"""\rYou fling some stalactite powder at the man.  He coughs.  Now
             \ryou're being rude, {player}.""")
         elif mcp("stalactite","man") and have_stalactite:
-            have_stalactite = False
-            remove_from_inventory("brittle")
             print(
             """\rYou extend your only stalactite to the man.  He accepts your
             \rkind gesture, and takes the stalactite.""")
+            have_stalactite = False
+            remove_from_inventory("brittle")
             story(this_room, "stalactite")
             break
-
+        elif mcp("pudge","man") and have_pudge:
+            print(
+            """\rYou extend your hand with some squishy door pudge on it.  The
+            \rman looks at your hand.  He looks at your face.  He's clearly not
+            \rgoing to touch that hand.""")
+        elif mcp("stalagmite","man") and have_stalagmite:
+            print(
+            """\rYou reach into your endless pouch-pocket-hole-place-thing and
+            \rpull out a stlagmite.  The man's eyes widen, and he looks excited.
+            \rHe takes the stalagmite from you.""")
+            have-stalagmite = False
+            remove_from_inventory("stalagmite")
+            story(this_room, "stalagmite")
+            break
+    elif mcp("pillow") and have_pillow:
+        print(
+        """\rYou pull out the pillow, and the man snatches it from you.
+        \r\t"Hey!  That's my pillow!" he exclaims.  The man is not pleased with
+        \ryou.  He says, "I am not pleased with you."
+        """)
         else:
             mcdu()
 
