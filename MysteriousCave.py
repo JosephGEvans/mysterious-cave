@@ -1510,15 +1510,16 @@ def story(previous, reason):
         print("An impossible situation has occurred!")
 
     print(
-    """\r\t"Ah, yes, great.
+    """\r\t"Ah, yes, anyway.
     \r\t"I'd love to tell you all about myself and how I came to live in and
-    \rcreate this cave house.  Would you like to hear it?""")
+    \rcreate this cave house.  Would you like to hear all about it?""")
 
     while True:
         mci()
 
-        if mcp("yes") or mcp("continue"):
+        if mcp("yes") or mcp("continue") or mcp("yeah"):
             print("""\r\t"Fantastic!" """)
+            break
         elif mcp("no"):
             print(
             f"""\r\t"Oh?  No?  Oh.  I see.  Well, I'll just get out of your way,
@@ -1534,15 +1535,65 @@ def story(previous, reason):
             print(
             """\r"I'm afraid I don't understand.  Shall I continue or not?" """)
 
+    print(
+    """\r\t"So this is how it all went down.  A long time ago, I was outside and
+    \rstumbled across this cave, probably at the same entrance where you came
+    \rin.  (I never found another way in or out.)
+    \r\t"Anyway!  I was looking at this mysterious cave, and a snake came
+    \rslithering toward me.  I froze up!  I was frightened.  I cried out, "Oh!"
+    \rBut then the snake kept on going past me.  Let me tell you, I was very
+    \rrelieved.  Has anything like that ever happened to you?"
+    """)
+    mci()
 
-    #The man tells a story, possibly an interactive story...
-    #The reason variable is the cause of the man launching into the story.  He
-    #should mention the reason while beginning.
-    #If you're rude to the man, he will leave through the exit door and lock it
-    #behind him.  You'll never find out what's in there.
-    #If you're polite, he'll invite you to visit whenever you please, and open
-    #the door for you to find the secret exit.
-    pass
+    print(
+    """\r\t"Mmm hmm, fascinating," the man says.  He may not really think what
+    \ryou said is fascinating.  It's hard to tell.
+    \r\tHe continues, "So I go into this cave, and live just inside it for a
+    \rwhile.  I even made, like, a secret hiding place.  It was all just inside
+    \rthe entrance to the East.  Did you see it?"
+    """)
+    mci()
+
+    print(
+    """\r\t"Wonderful, great.  Anyway, so I explored the rest of the cave, yada,
+    \ryada, yada, spent decades painstakingly carving out a home for myself,
+    \retcetera, etcetera.  And here it is!"
+    \r\t"Well?  What do you think?  Did you love my story?" """)
+
+    while True:
+        mci()
+
+        if mcp("yes") or mcp("yeah"):
+            print(
+            """\r\t"Good.  That is a relief.  Hey, you're pretty alright.  Feel
+            \rfree to, you know, explore in here, or come and go whenever you
+            \rplease.  There is a quicker path to the cave entrance this way,
+            \rbehind me."
+            \rThe man gestures to the door leading SOUTH.  He opens the door for
+            \ryou.
+            \r\t"It has been a pleasure meeting you!  See you around."
+            \rThe man goes NORTH into the study.  You never exchanged names, so
+            \rI would hardly call that a "meeting", but who am I to say?
+            """)
+            secret_room_door_open = True
+            secret_room("study")
+            break
+        elif mcp("no"):
+            print(
+            f"""\r\t"Oh?  No?  Oh.  Yeah, it wasn't a very good story.  Oh well.
+            \rSorry to have bothered you."
+            \rThe man looks dejected.  With his shoulders slumped, head down, he
+            \rgently pushes past you to go NORTH into the study.  I hope he
+            \rdoesn't, you know... hurt himself, {player}.  I agree with you,
+            \rthough, {player}.  It was kind of an abrupt ending.
+            """)
+            secret_room_door_locked = True
+            secret_room("study")
+            break
+        else:
+            print(
+            """\r"Yes, yes, but did you like my story?" """)
 
 
 def finished_path(previous):
