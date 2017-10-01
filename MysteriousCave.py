@@ -1438,9 +1438,45 @@ def secret_room(previous):
             print("No YOU look, man!  Don't see any MAN here, MAN.")
         elif mcp("man"):
             print("The man is gone now.  You can't interact with a gone man.")
+        elif mcp("open","door"):
+
+            if secret_room_door_open:
+                print(f"All the doors in here are open, {player}.")
+            elif mcp("north"):
+                print(f"The doorway to the NORTH is already wide open.")
+            elif secret_room_door_locked:
+                print(f"You can't open the door, {player}.  The door is locked."
+                )
+            else:
+                print("You open the door.  Great work!  WOO HOO!!")
+                secret_room_door_open = True
+
+        elif mcp("unlock","door"):
+
+            if secret_room_door_locked:
+                print(
+                f"You can't unlock the door, {player}.  It's not happening.")
+            elif secret_room_door_open:
+                print(f"You can't unlock the door, {player}.  The door is open."
+                )
+            else:
+                print(
+                f"You can't unlock the door, {player}.  The door is not locked."
+                )
+
+        elif mcp("stalagmite","door"):
+            print(
+            f"""\r"{player}, that's not going to work here.  In fact, you know
+            \rwhat?  Give me that!"
+            \rThe cave, uh, narrator takes away your stalagmite.
+            \rWell, this is awkward...""")
+            have_stalagmite = False
+            remove_from_inventory("stalagmite")
         elif mcp("south") and secret_room_door_open:
             finished_path(this_room)
             break
+        elif mcp("south"):
+            print(f"You can't go south, {player}.  The door is closed.")
         elif mcp("north"):
             study(this_room)
             break
