@@ -1609,13 +1609,32 @@ def finished_path(previous):
     """\rThe walls, floor, and ceiling here are all smooth and cut.  After
     \rYou walk for a while, the carved walls give way to raw cave surfaces.  It
     \ris a little cramped for a bit, but then you find more smoothly cut walls,
-    \rfloor, and ceiling at the other end."""
+    \rfloor, and ceiling at the other end.""")
 
     if last_room == "secret_room":
         print(
-        """\rThere are carved, stone steps leading up to some kind of stone
-        \rhatch with a handle.  You could go UP and push on that hatch.""")
+        """\rThere are carved, stone steps leading up to a stone hatch.  You
+        \rcould go UP and push on that hatch to open it.""")
+    elif last_room == "perfect_cube_room":
+        print(
+        "There is a door leading NORTH to a secret room, and the study beyond.")
+    else:
+        print("This wasn't supposed to happen.  Which way did you come from?")
 
+    while True:
+        mci()
+
+        if mcp("north"):
+            secret_room(this_room)
+            break
+        elif mcp("up") or mcp("hatch") or mcp("push"):
+            print(
+            "You head up the steps and push on the hatch.  It opens easily.")
+            cube_room_secret_door_visible = True
+            perfect_cube_room(this_room)
+            break
+        else:
+            mcdu()
 
 
 def end():
