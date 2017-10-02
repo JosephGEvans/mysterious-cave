@@ -159,9 +159,9 @@ def mcdu():
     elif "help" in mcinput.lower():
         print("""Here are some things you can try:
 
-        LOOK at something, or just LOOK around
-        GET something
-        USE something
+        LOOK at a THING, or just LOOK around
+        GET some THING
+        USE one of your THINGS
         Check out your INVENTORY (aka INV to the "in crowd" who use cool words)
         TALK to someone?  Are there even people here?
         You can always try to go EAST, WEST, NORTH, or SOUTH.
@@ -301,7 +301,7 @@ def hobo_bedroom(previous):
             hobo_bedroom_rocks_moved = True
             print("You move the rocks.  Take another look at the wall.")
         elif mcp("move"):
-            print("You move.")
+            print("You move a little.  Oh, did you want to move some THING?")
         else:
             mcdu()
 
@@ -315,7 +315,7 @@ def hobo_cache(previous):
     """\rWow, neat!  It's some kind of secret pile of secret stuff.  Let's see,
     \rwe have a rusty harmonica, a can of "Beans", some broken glasses, and some
     \rused, uh... used stuff.  Actually, you know what?  This is not that neat.
-    \rHead back EAST before you catch a disorder, or something.""")
+    \rHead back EAST before you catch leprosy, or something.""")
     while True:
         mci()
 
@@ -476,11 +476,9 @@ def long_walk(previous):
     this_room = "long_walk"
 
     print(
-    """\rYou're in a dark passage heading north, and walk for a long time.
-    \rEventually, you reach a spot where the dark passage veers WEST, and an
-    \reven darker passage continues to the NORTH.  Really, though, you should
-    \rhead back SOUTH and leave this scary cave."""
-    )
+    """\rYou're in a dark passage, and walk for a long time.  Eventually, you
+    \rreach a spot where the dark passage veers WEST, an even darker passage
+    \rcontinues to the NORTH, and a nice, safe-looking passage leads SOUTH.""")
 
     while True:
         mci()
@@ -591,13 +589,13 @@ def longer_twisty_walk(previous):
     look_from_south = """The passage twists.  It turns.  It climbs.  It drops.
     \rIt gets creepier, and darker, and danker.
     \rIn front of you the passage splits:  one way leads UP, the other DOWN.
-    \r\tYou could leave, you know.  Type SOUTH three times and you're safe in
+    \rYou could leave, you know.  Type SOUTH three times and you're safe in
     \rthe sunshine.  I mean, as safe as you can be with murderers and theives
     \rand politicians out there."""
 
-    look_from_north = """Take this the twisty, turny, climby, fally, creepy,
-    \rdank, dark passage all the way, and head SOUTH to keep on going.
-    \rThere are also passages that go UP and DOWN."""
+    look_from_north = """You're in a twisty, turny, climby, fally, creepy, dank,
+    \rdark passage.  The cave entrance is back to the SOUTH.  There are also
+    \rpassages leading UP and DOWN."""
 
     if last_room == "long_walk":
         print(look_from_south)
