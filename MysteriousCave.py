@@ -384,9 +384,15 @@ def perfect_cube_room(previous):
     print(
     """\rYou've entered some kind of perfectly shaped cube room just east of the
     \rcave entrance.  The stone ceiling, ground, and walls are all cut flat and
-    \rsmooth.  This must have taken a lot of long, hard work.  Who would do such
-    \ra thing?  You can't see anything to do here other than exit to the WEST.
-    """)
+    \rsmooth.  This must have taken a lot of long, hard work.""")
+
+    if cube_room_secret_door_visible:
+        print(
+        """\rYou can see the outline of a secret hatch now.  There is even a
+        \rconvenient natural-looking handhold.  You can go DOWN the hatch, or
+        \rhead WEST to the cave entrance.""")
+    else:
+        print("You don't see much to do here other than exit to the WEST.")
 
     look_key_gag_ended = """
     \rThere is a key on the floor that you can't pick up.  Remember how funny
@@ -450,6 +456,14 @@ def perfect_cube_room(previous):
             """\rUm, there is nothing here to get.  You can't get anything.""")
         elif mcp("use"):
             print("Honestly, this room is very boring, and you should leave.")
+        elif mcp("down") and cube_room_secret_door_visible:
+            print("You open the secret hatch, and head down the stairs.")
+            finished_path(this_room)
+            break
+        elif mcp("hatch") and not cube_room_secret_door_visible:
+            print(f"Ha!  Ha.  Ha.  There's no secret hatch in here.  {player}!")
+        elif mcp("down"):
+            print(f"Down, {player}?  You can't go down.  Don't be silly.")
         elif mcp("west") or mcp("leave") or mcp("exit"):
             cave_entrance(this_room)
             break
