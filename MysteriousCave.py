@@ -128,7 +128,7 @@ def mcdu():
     elif mcp("inv"):
         print("You check your inventory, and you have:")
         for item in inventory:
-            print("\t" + item)
+            print("\t*  " + item)
         print("\n")
     elif mcp("look"):
         exec(this_room + "(last_room)")
@@ -313,10 +313,9 @@ def hobo_cache(previous):
 
     print(
     """\rWow, neat!  It's some kind of secret pile of secret stuff.  Let's see,
-    \rwe have a can of "Beans", some broken glasses, a rusty harmonica, and some
+    \rwe have a rusty harmonica, a can of "Beans", some broken glasses, and some
     \rused, uh... used stuff.  Actually, you know what?  This is not that neat.
-    """
-    )
+    \rHead back EAST before you catch a disorder, or something.""")
     while True:
         mci()
 
@@ -659,7 +658,7 @@ def vast_expanse(previous):
             \ryou won't even hear the sound waves that return to you.""")
         elif mcp("look") or mcp("survey"):
             print(
-            """\rYeah!  That's right.  LOOK.  Absorb.  Enjoy.  One more time...
+            """\rYeah, that's right.  LOOK.  Absorb.  Enjoy.  One more time...
             """)
             vast_expanse(last_room)
             break
@@ -724,23 +723,23 @@ def open_cavern(previous):
     wet = False
 
     look_open_cavern_wall = """
-    \rYou enter a majestic cavern, which seems to be partially lit by a pool
-    \rof water nearby.  There is an interesting wall near the bioluminescent
-    \rpool which you may want to INSPECT.  The whole scene almost reminds you of
+    \rYou are in a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  Near the bioluminescent pool, there is an interesting
+    \rwall which you may want to INSPECT.  The whole scene almost reminds you of
     \rbeing outside at night.  It is beautiful and tranquil.  You can exit to
     \rthe SOUTH whenever you are ready."""
 
     look_open_cavern_door = """
-    \rYou enter a majestic cavern, which seems to be partially lit by a pool
-    \rof water nearby.  There is a door near the bioluminescent pool to the
-    \rNORTH.  The whole scene almost reminds you of being outside at night.  It
+    \rYou are in a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  There is a door to the NORTH near the bioluminescent
+    \rpool.  The whole scene almost reminds you of being outside at night.  It
     \ris beautiful and tranquil.  You can exit to the SOUTH whenever you are
     \rready."""
 
     look_open_cavern_door_open = """
-    \rYou enter a majestic cavern, which seems to be partially lit by a pool
-    \rof water nearby.  There is a doorway near the bioluminescent pool to the
-    \rNORTH.  The whole scene almost reminds you of being outside at night.  It
+    \rYou are in a majestic cavern, which seems to be partially lit by a pool
+    \rof water nearby.  There is a doorway leading NORTH near the bioluminescent
+    \rpool.  The whole scene almost reminds you of being outside at night.  It
     \ris beautiful and tranquil.  You can exit to the SOUTH whenever you are
     \rready."""
 
@@ -754,7 +753,7 @@ def open_cavern(previous):
     while True:
         mci()
 
-        if mcp("get","in","pool"):
+        if mcp("get","in","pool") or mcp("get","in","water"):
 
             if in_pool:
                 print("You're already in the pool, and I don't like it.")
@@ -809,16 +808,11 @@ def open_cavern(previous):
             else:
                 print("How do you know if there is a door unless you LOOK?")
 
-
-        elif mcp("smash","door") or mcp("hit","door"):
-
-            if can_see_the_door:
-                print(
-                """\rOooooh!  So angry!  You probably have to smash the door
-                \rwith a THING though.""")
-            else:
-                print("What door?")
-
+        elif mcp("look","key","hole") and can_see_the_door:
+            print(
+            f"""\rYou look through the key hole.  Interesting.  Yeah.  Mmmm.
+            \rHey, {player}, you should see this.  There's some interesting
+            \rstuff through this key hole.""")
         elif mcp("stalagmite","door"):
 
             if door_open:
@@ -868,6 +862,15 @@ def open_cavern(previous):
                 )
             else:
                 print("What door?  What stalactite?  You delirious?")
+
+        elif mcp("smash","door") or mcp("hit","door") and not door_open:
+
+            if can_see_the_door:
+                print(
+                """\rOooooh!  So angry!  You probably have to smash the door
+                \rwith a THING though.  A hard thing.""")
+            else:
+                print("What door?")
 
         elif mcinput.lower().startswith("open") and mcp("door"):
 
@@ -950,7 +953,7 @@ def finished_room(previous):
     print(
     """\rThis nicely finished room has the same decorative patterns on the walls
     \ras the SOUTH hallway.  There are open doorways leading to rooms in every
-    direction.""")
+    \rdirection.""")
 
     while True:
         mci()
@@ -1028,11 +1031,13 @@ def bath_room(previous):
             \rthey contain.""")
         elif mcp("take","medicine"):
             print("You take some medicine.  NO!  SPIT IT OUT!!")
+        elif mcp("spit","medicine"):
+            print("You spit into the sink.  Goooood.")
         elif mcp("get","medicine"):
             print(
             """\rWe shouldn't be getting any cave medicine that is so old the
             \rexpiration dates have fadded off the labels.  I won't allow you to get
-            \rit.  I could probably be prosecuted for negligance, or something.""")
+            \rit.  I would be liable for negligance, or something.""")
         elif mcp("look","shower"):
             print(
             """\rWhile the rest of the bathroom is covered in in an etched
@@ -1046,7 +1051,7 @@ def bath_room(previous):
         elif mcp("get","in","shower"):
             print(
             """\rMmmmmm, no.  That's not gonna work here.  You stay out of the
-            shower.""")
+            \rshower.""")
         elif mcp("look","toilet"):
             print(
             """\rThis bowl is literally porcelain.  It is decorated with floral
@@ -1190,20 +1195,22 @@ def finished_hallway(previous):
 
 def kitchen(previous):
     global last_room, this_room, player
+    global have_junk
     last_room = previous
     this_room = "kitchen"
 
     print(
-    """\rYou see a stove, a few cupboards, some counters, and some drawers.
+    """\rYou see a stove, a few cabinets, some counters, and some drawers.
     \rA kitchen?  Of course there's a kitchen!  Why not have a kitchen in your
-    \rsecret cave house?""")
+    \rsecret cave house?  There's also a balcony to the SOUTH.  The stairs down
+    \rto the hall are NORTH.""")
 
     while True:
         mci()
 
-        if mcp("look","cupboard"):
+        if mcp("cabinet"):
             print(
-            """\rYou rummage through the cuppboards.  There are various food
+            """\rYou rummage through the cabinets.  There are various food
             \rsupplies.  You notice a large quantity of generic cans of "Beans."
             \rHow interesting...  Well, if you get hungry, there's food!""")
         elif mcp("eat"):
@@ -1211,15 +1218,15 @@ def kitchen(previous):
         elif mcp("get","beans"):
             print(
             """\rWell, that's peculiar.  They seem to be firmly attached to the
-            \rshelf in the cupboard!  It's almost as if someone here didn't want
+            \rshelf in the cabinet!  It's almost as if someone here didn't want
             \ryou to GET BEANS.""")
         elif mcp("pudge","powder","counter"):
-            print("That is just the weirdest-- what do you hope to even make?")
+            print("That is just the weirdest-  What do you hope to even make?")
         elif mcp("look","counter"):
             print(
             """\rYep.  There're counters.  Guess what they're made of!  Well?
             \rGive up?  Alright, I'll tell you.  They're made of counters.""")
-        elif mcp("look","drawer"):
+        elif mcp("drawer"):
             print(
             """\rYou rummage through the drawers.  You're so forward.  Anyway,
             \ryou don't find anything other than the kinds of mundane things
@@ -1414,6 +1421,10 @@ def secret_room(previous):
             f"""\rYou look at the man.  He looks at you.  He doesn't look happy.
             \rActually, you don't look too happy either.
             \rYou alright there, {player}?""")
+        elif mcp("hit","man"):
+            print(
+            f"""\rWhoa!  {player}!  A little less violence, and a little more
+            \rmanners, please!  This man is a stranger.  We don't hit.""")
         elif mcp("talk","man"):
             print(
             """\rYou talk to the man.  He doesn't talk to you.  Weird.""")
@@ -1452,6 +1463,7 @@ def secret_room(previous):
             \ryou.  He says, "I am not pleased with you."
             """)
             have_pillow = False
+            remove_from_inventory("pillow")
         elif mcp("junk","man") and have_junk:
             print(
             """\rYou pull out some of that junk you found in a drawer.  The man
@@ -1461,6 +1473,12 @@ def secret_room(previous):
             remove_from_inventory("junk")
             story(this_room, "junk")
             break
+        elif mcp("flashlight","man"):
+            print(
+            f"""\rYou wave your flashlight around, shine it in the man's eyes a
+            \rlittle.  He blinks.  Real mature, {player}.""")
+        elif mcp("push","man"):
+            print("This particular man will not be pushed.")
         elif mcp("SOUTH"):
             print(
             "You can't get to the door.  The man is blocking it.  Annoying.")
