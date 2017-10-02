@@ -212,33 +212,57 @@ def start():
 
 
 def cave_entrance(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, you_win, you_lose
     last_room = previous
     this_room = "cave_entrance"
-    print(
-    f"""\rIt looks like you've found yourself in the entrance to a cave!  The
-    \rlight from outside shows paths leading EAST, WEST, and NORTH.  Which way
-    \rwould you like to go?""")
-    mci()
-    # offer choices left, right, forwared, back out of the cave
-    if mcp("west"):
-        hobo_bedroom(this_room)
-    elif mcp("east"):
-        perfect_cube_room(this_room)
-    elif mcp("north"):
-        long_walk(this_room)
-    elif mcp("south") or mcp("out") or mcp("exit") or mcp("leave"):
-        print("""
-        \rYou decide it would be best to leave this cave.  It's probably
-        \rdangerous.  See ya!
+
+    if you_win:
+        print(
+        f"""\rAaaaaand here you are, back at the beginning.  You've basically
+        \rwon the game, at this point.  You may exit to the SOUTH.  Feel free to
+        \rexplore the cave some more, you know, if your into that sort of thing.
+        \rOh, and {player}?  Nice job.  I'd wink at you if I weren't some kind
+        \rof disembodied cave voice, eh, text, uh, guy.  Thing.
         """)
-        end()
-    elif mcp("left") or mcp("right") or mcp("straight"):
-        print("Try typing EAST, WEST, or NORTH.\n")
-        cave_entrance(previous)
+        you_win = False
+    elif you_lose:
+        print(
+        f"""\rWell.  Here you are.  This is the entrance you came in.  Seems
+        \rlike maybe you're not welcome here anymore, {player}.  You should, you
+        \rknow, look into exiting to the SOUTH.  That way.  SOUTH way.""")
+        you_lose = False
     else:
-        mcdu()
-        cave_entrance(previous)
+        print(
+        f"""\rIt looks like you've found yourself in the entrance to the cave!
+        \rThe light from outside shows paths leading EAST, WEST, and NORTH.
+        \rWhich way would you like to go, {player}?""")
+
+    while True:
+        mci()
+        # offer choices left, right, forwared, back out of the cave
+        if mcp("west"):
+            hobo_bedroom(this_room)
+            break
+        elif mcp("east"):
+            perfect_cube_room(this_room)
+            break
+        elif mcp("north"):
+            long_walk(this_room)
+            break
+        elif mcp("south") or mcp("out") or mcp("exit") or mcp("leave"):
+            print("""
+            \rYou decide it would be best to leave this cave.  It's probably
+            \rdangerous.  See ya!
+            """)
+            end()
+        elif mcp("left") or mcp("right") or mcp("straight") or mcp("back"):
+            print("Try typing EAST, WEST, or NORTH.\n")
+            cave_entrance(previous)
+            break
+        else:
+            mcdu()
+            cave_entrance(previous)
+            break
 
 
 def hobo_bedroom(previous):
@@ -1487,7 +1511,7 @@ def secret_room(previous):
 
 def story(previous, reason):
     global last_room, this_room, player
-    global secret_room_door_locked, secret_room_door_open
+    global secret_room_door_locked, secret_room_door_open, you_lose
     last_room = previous
     this_room = "story"
 
@@ -1531,6 +1555,7 @@ def story(previous, reason):
             """)
             man_in_secret_room = False
             secret_room_door_locked = True
+            you_lose = True
             secret_room("study")
             break
         else:
@@ -1593,6 +1618,7 @@ def story(previous, reason):
             """)
             man_in_secret_room = False
             secret_room_door_locked = True
+            you_lose = True
             secret_room("study")
             break
         else:
@@ -1601,7 +1627,7 @@ def story(previous, reason):
 
 
 def finished_path(previous):
-    global last_room, this_room, player
+    global last_room, this_room, player, you_win
     last_room = previous
     this_room = "finished_path"
 
@@ -1631,6 +1657,7 @@ def finished_path(previous):
             print(
             "You head up the steps and push on the hatch.  It opens easily.")
             cube_room_secret_door_visible = True
+            you_win = True
             perfect_cube_room(this_room)
             break
         else:
@@ -1671,6 +1698,8 @@ secret_room_door_open = False
 man_in_secret_room = True
 secret_room_door_locked = False
 cube_room_secret_door_visible = False
+you_win = False
+you_lose = False
 
 os.system('cls')
 start()
